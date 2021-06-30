@@ -28,12 +28,12 @@
         <form>
           <div class="col-3 mx-auto" style="width: 250px;">
             <select class="date" v-model="date">
-              <datepicker 
+              <vueDatepicker 
                 :format="DatePickerFormat" 
                 :bootstrap-styling="true" 
                 :language="ja" 
                 placeholder="日付を選択してください"
-              ></datepicker>
+              ></vueDatepicker>
             </select>
           </div>
           <div>
@@ -68,8 +68,8 @@
 <script>
 import VueTimepicker from 'vue2-timepicker'
 import 'vue2-timepicker/dist/VueTimepicker.css'
-import Datepicker from 'vuejs-datepicker'
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import VueDatepicker from 'vue2-datepicker'
+import 'vue2-datepicker/index/css'
 import {ja} from 'vuejs-datepicker/dist/locale'
 export default {
   name: 'app',
@@ -81,7 +81,7 @@ export default {
   }, 
   components: {
     'vue-timepicker': VueTimepicker,
-    Datepicker
+    'vue-datepicker':VueDatepicker,
   },
     }
 </script>
