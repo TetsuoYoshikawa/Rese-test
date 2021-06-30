@@ -69,7 +69,7 @@
 import VueTimepicker from 'vue2-timepicker'
 import 'vue2-timepicker/dist/VueTimepicker.css'
 import VueDatepicker from 'vue2-datepicker'
-import 'vue2-datepicker/index/css'
+import 'vue2-datepicker/index'
 import {ja} from 'vuejs-datepicker/dist/locale'
 export default {
   name: 'app',
