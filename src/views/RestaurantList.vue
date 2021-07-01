@@ -29,7 +29,7 @@
           <div>
             <button @click="detail">詳しく見る</button>
             <div>
-              <img src="">
+              <Favorite />
             </div>
           </div>
         </div>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import Favorite from '../components/Favorite.vue';
 export default{
   data(){
     return{
@@ -55,6 +56,9 @@ export default{
         {name:"root",prefecture:"大阪",genre:"焼肉"}
       ],
     };
+  },
+  components:{
+    Favorite
   }
 };
 </script>
