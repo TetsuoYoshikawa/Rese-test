@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import HeaderAuth from '../components/HeaderAuth.vue';
 import Favorite from '../components/Favorite.vue';
 export default{
   data(){
@@ -58,6 +59,7 @@ export default{
     };
   },
   components:{
+    HeaderAuth,
     Favorite
   }
 };

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import VueStar from 'vue-star';
+import vuestar from 'vue-star';
 export default{
   mounted:{
     handleClick(){
@@ -19,7 +19,7 @@ export default{
     }
   },
   component:{
-    VueStar
+    vuestar
   }
 }
 </script>
