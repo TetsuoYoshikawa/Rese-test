@@ -100,11 +100,8 @@ input, select {
     vertical-align:middle;
 }
 
-html {
-  background-color: #15202b;
-}
-* {
-  color: white;
-  font-family: "Noto Sans JP";
+
+*{
+    color: black;
 }
 </style>

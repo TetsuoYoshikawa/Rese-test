@@ -6,45 +6,45 @@ import MyPage from '../views/MyPage.vue'
 import Detail from '../views/RestaurantDetail.vue'
 import Done from '../views/Done.vue'
 import Thanks from '../views/Thanks.vue'
-import List from '../views/RestaurantList.vue'
+import RestaurantList from '../views/RestaurantList.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/L',
     name: 'login',
     component: Login
   },
   {
-    path:'/Register',
+    path:'/R',
     name:'register',
     component:Register
   },
   {
-    path: '/MyPage',
+    path: '/mypage',
     name: 'MyPage',
     component:MyPage
   },
   {
-    path: '/RestaurantDetail',
+    path: '/',
     name: 'Detail',
     component:Detail
   },
   {
-    path:'/Done',
+    path:'/done',
     name:'done',
     component:Done
   },
   {
-    path:'/Thanks',
+    path:'/thanks',
     name:'thanks',
     component:Thanks
   },
   {
-    path:'/Register/:list',
-    name:'List',
-    component:List
+    path:'/S',
+    name:'restaurantlist',
+    component:RestaurantList
   }
 ]
 

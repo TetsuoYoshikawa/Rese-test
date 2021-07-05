@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderAuth />
+    <Header />
     <div class="card">
       <div class="message">
         <h2>ご予約ありがとうございます</h2>
@@ -11,10 +11,28 @@
 </template>
 
 <script>
-import HeaderAuth from "../components/HeaderAuth.vue";
+import Header from '../components/Header.vue'
 export default{
   components:{
-    HeaderAuth
+    Header,
   }
 }
 </script>
+<style scoped>
+.card {
+ margin: 200px auto;
+ width: 350px;
+ background: #fff;
+ border-radius: 10px;
+ text-align: center;
+ box-shadow: 2px 2px 4px;
+}
+
+.message{
+  padding:30px 0;
+}
+button{
+  margin:30px 0 10px 0;
+}
+
+</style>
