@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import MyPage from '../views/MyPage.vue'
-import Detail from '../views/RestaurantDetail.vue'
+import RestaurantDetail from '../views/RestaurantDetail.vue'
 import Done from '../views/Done.vue'
 import Thanks from '../views/Thanks.vue'
 import RestaurantList from '../views/RestaurantList.vue'
@@ -17,7 +17,7 @@ const routes = [
     component: Login
   },
   {
-    path:'/R',
+    path:'/register',
     name:'register',
     component:Register
   },
@@ -28,8 +28,8 @@ const routes = [
   },
   {
     path: '/',
-    name: 'Detail',
-    component:Detail
+    name: 'RestaurantDetail',
+    component:RestaurantDetail
   },
   {
     path:'/done',
@@ -42,8 +42,8 @@ const routes = [
     component:Thanks
   },
   {
-    path:'/S',
-    name:'restaurantlist',
+    path:'/R',
+    name:'RestaurantList',
     component:RestaurantList
   }
 ]
@@ -51,7 +51,7 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

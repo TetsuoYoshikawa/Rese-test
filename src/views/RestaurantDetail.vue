@@ -3,31 +3,33 @@
     <Header />
     <div class="restaurantList contents">
       <div class="item">
-        <div class="restaurantCard flex" v-for="(restaurant,index) in restaurantList" :key=index :value="restautant.id">
-          <img src="../assets/cross.png" class="restaurantPic">
+        <div class="restaurantCard flex">
+          <div class="restaurantName" >
+            <img class="img" src="assets/Back.png" @click="$router.push('/restaurantlist')">
+            <p>{{restaurant.name}}</p>
+          </div>
+          <img src="assets/italian.jpg" class="restaurantPic">
           <div class="restaurantDetail">
-            <div class="restaurantName">
-              <p>{{restaurant.name}}</p>
-            </div>
             <div class="tag">
               <p>#{{restairant.prefecture}} #{{restaurant.genre}}</p>
             </div>
-            <div>
-              <button @click="detail">詳しく見る</button>
-              <img src="../assets/store.png" class="heart">
+            <div class="description">
+              <p>{{restaurant.Detail}}</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="item">
+    </div>
+    <div class="item">
+      <div class="reservationDetail">
+        <h2 class="title">予約</h2>
         <div class="reservation">
           <div class="card">
-            <h2>予約</h2>
             <form>
               <div class="col-3 mx-auto" style="width: 250px;">
                 <select class="date" v-model="date">
                   <vue-datepicker :format="DatePickerFormat" :bootstrap-styling="true" :language="ja"
-                    placeholder="日付を選択してください"></vue-datepicker>
+                  placeholder="日付を選択してください"></vue-datepicker>
                 </select>
               </div>
               <div>
@@ -45,23 +47,12 @@
                 </select>
               </div>
             </form>
-            <form class="form">
-              <div>
-                <p >{{a}}</p>
-              </div>
-              <div>
-                <p>{{a}}</p>
-              </div>
-              <div>
-                <p>{{a}}</p>
-              </div>
-            </form>
-            <button @click="resere" class="button">予約する</button>
+            <button @click="reserve" class="button btn btn-border-shadow btn-border-shadow--color2">予約する</button>
           </div>
         </div>
       </div>
     </div>
-  </div>    
+  </div>
 </template>
 
 <script>
@@ -75,29 +66,33 @@ export default {
   name: 'app',
   data () {
     return {
+      date:"",
+      time:"",
+      number:"",
       DatePickerFormat: 'yyyy-MM-dd',
       ja:ja,
-    }
+    };
   }, 
+  methods:{
+    async getRestaurant() {
+      const resData = await this.$axios.get(
+        "http://127.0.0.1:8000/api/contact/"
+      );
+      this.restaurant = resData.data.data;
+    }
+  },
   components: {
     'vue-timepicker': VueTimepicker,
     'vue-datepicker':VueDatepicker,
     Header,
   },
-    }
+}
 </script>
  
 <style scoped>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  margin:  0 auto; 
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 260px;
-  width: 50%;
-}
+/*///////////////////
+//   店舗情報詳細   //
+///////////////////*/
 .contents {
   display: flex;
   flex-wrap: wrap;
@@ -106,9 +101,13 @@ export default {
   padding: 20px 10px;
   width: 48%;
   justify-content: space-between;
+  position: relative;
 }
 .restaurantPic {
   width: 100%;
+}
+.restaurantName{
+  display:flex;
 }
 .restaurantCard {
   background-color: white;
@@ -119,12 +118,29 @@ export default {
 .restaurantDetail {
   margin: 0 20px;
 }
-.heart {
+.img {
   width: 30px;
-  height: 20px;
+  height: 30px;
+  padding-top:12px;
+}
+
+.reservationDetail{
+  box-shadow: 2px 2px 2px;
+  height:500px;
+}
+.title{
+  background-color:#4fb683;
+  height: 80px;
+  line-height: 80px;
+  padding-left: 20px;
 }
 .reservation {
-  background-color:#4fb683;
+  width:90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform : translate(-50%,-50%);
+  transform : translate(-50%,-50%);
 }
 .card {
   padding: 20px 40px;
@@ -137,10 +153,69 @@ export default {
 }
 select {
   display: inline-block;
-  width: 200px;
+  width: 500px;
+  height:30px;
+  margin-bottom:30px;
 }
+/*//////////////////////
+//   ボタンオプション   //
+//////////////////////*/
 .button{
   margin-top:20px;
   width:100%;
+}
+.btn,
+a.btn,
+button.btn {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.5;
+  position: relative;
+  display: inline-block;
+  padding: 1rem 4rem;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  color: #212529;
+  border-radius: 0.5rem;
+}
+button.btn-border-shadow {
+  padding: calc(1.5rem - 12px) 3rem 1.5rem;
+  background: #fff;
+}
+button.btn-border-shadow:before {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  border: 3px solid #000;
+  border-radius: 0.5rem;
+}
+button.btn-border-shadow:hover {
+  padding: calc(1.5rem - 6px) 3rem;
+}
+button.btn-border-shadow:hover:before {
+  top: 0;
+  left: 0;
+}
+button.btn-border-shadow--color2 {
+  border-radius: 100vh;
+}
+button.btn-border-shadow--color2:before {
+  border-radius: 100vh;
+  -webkit-box-shadow: 3px 3px 0 #78e5e5;
+  box-shadow: 3px 3px 0 #78e5e5;
 }
 </style>
