@@ -7,10 +7,10 @@
           <img src="" class="restaurantPic">
           <div class="restaurantDetail">
             <div class="restaurantName">
-              <p>{{restaurant.name}}</p>
+              <p></p>
             </div>
             <div class="tag">
-              <p>#{{restairant.prefecture}} #{{restaurant.genre}}</p>
+              <p></p>
             </div>
             <div>
               <button @click="$router.push({name:'Detail',params:{id:restauranr.id}})">詳しく見る</button>
@@ -49,3 +49,13 @@ export default{
   }
 };
 </script>
+
+<style scoped>
+button{
+  padding:10px;
+  background-color:#ff7300;
+  border:none;
+  border-radius: 10px;
+}
+
+</style>

@@ -1,18 +1,18 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
-import MyPage from '../views/MyPage.vue'
-import RestaurantDetail from '../views/RestaurantDetail.vue'
-import Done from '../views/Done.vue'
-import Thanks from '../views/Thanks.vue'
-import RestaurantList from '../views/RestaurantList.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Login from '../views/Login.vue';
+import Register from '../views/Register.vue';
+import MyPage from '../views/MyPage.vue';
+import RestaurantDetail from '../views/RestaurantDetail.vue';
+import Done from '../views/Done.vue';
+import Thanks from '../views/Thanks.vue';
+import RestaurantList from '../views/RestaurantList.vue';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/L',
+    path: '/login',
     name: 'login',
     component: Login
   },
@@ -27,7 +27,7 @@ const routes = [
     component:MyPage
   },
   {
-    path: '/',
+    path: '/restairant/:detail',
     name: 'RestaurantDetail',
     component:RestaurantDetail
   },
@@ -42,7 +42,7 @@ const routes = [
     component:Thanks
   },
   {
-    path:'/R',
+    path:'/',
     name:'RestaurantList',
     component:RestaurantList
   }

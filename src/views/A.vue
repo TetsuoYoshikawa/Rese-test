@@ -5,50 +5,50 @@
       <div class="item">
         <div class="restaurantCard flex">
           <div class="restaurantName" >
-            <img class="img"  src="../assets/Back.png" @click="$router.push('/login')">
-            <p class="restaurantTitle">Tatile</p>
+            <img class="img" src="" @click="$router.push('/restaurantlist')">
+            <p>{{restaurant.name}}</p>
           </div>
-          <img src="../assets/search.jpeg" class="restaurantPic">
+          <img src="" class="restaurantPic">
           <div class="restaurantDetail">
             <div class="tag">
-              <p>#osaka #yakiniku</p>
+              <p>#{{restairant.prefecture}} #{{restaurant.genre}}</p>
             </div>
             <div class="description">
-              <p>setumei</p>
+              <p>{{restaurant.Detail}}</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="item">
-        <div class="reservationDetail">
-          <h2 class="title">予約</h2>
-          <div class="reservation">
-            <div class="card">
-              <form>
-                <div class="col-3 mx-auto" style="width: 250px;">
-                  <select class="date" v-model="date">
+    </div>
+    <div class="item">
+      <div class="reservationDetail">
+        <h2 class="title">予約</h2>
+        <div class="reservation">
+          <div class="card">
+            <form>
+              <div class="col-3 mx-auto" style="width: 250px;">
+                <select class="date" v-model="date">
                   <vue-datepicker :format="DatePickerFormat" :bootstrap-styling="true" :language="ja"
                   placeholder="日付を選択してください"
                   ></vue-datepicker>
-                  </select>
-                </div>
-                <div>
-                  <select class="time" v-model="time">
-                    <vue-timepicker format="hh::mm" id="timepicker" name="time" placeholder="時間を入力してください"
+                </select>
+              </div>
+              <div>
+                <select class="time" v-model="time">
+                  <vue-timepicker format="hh::mm" id="timepicker" name="time" placeholder="時間を入力してください"
                   input-class="form-control" :hour-range="[10,11,12,13,14,15,16,17,18,19,20,21,22,23]"
                   :minute-range="[0,10,20,30,40,50]" hide-disabled-hours hide-disabled-minutes close-on-complete>
-                    </vue-timepicker>
-                  </select>
-                </div>
-                <div>
-                  <select class="number" v-model="number">
-                    <option value="">人数を入力してください</option>
-                    <option v-for="n in 20" :key="n">{{n}}</option>
-                  </select>
-                </div>
-              </form>
-              <button @click="($router.push('/thanks'),{name:reserve})" class="button btn btn-border-shadow btn-border-shadow--color2">予約する</button>
-            </div>
+                  </vue-timepicker>
+                </select>
+              </div>
+              <div>
+                <select class="number" v-model="number">
+                  <option value="">人数を入力してください</option>
+                  <option v-for="n in 20" :key="n">{{n}}</option>
+                </select>
+              </div>
+            </form>
+            <button @click="reserve" class="button btn btn-border-shadow btn-border-shadow--color2">予約する</button>
           </div>
         </div>
       </div>
@@ -107,12 +107,7 @@ export default {
   width: 100%;
 }
 .restaurantName{
-  padding:20px 0;
-  display: flex;
-  line-height: 20px;
-}
-.restaurantTitle{
-  padding:5px 0 0 20px;;
+  display:flex;
 }
 .restaurantCard {
   background-color: white;
@@ -124,9 +119,9 @@ export default {
   margin: 0 20px;
 }
 .img {
-  width:30px;
-  height:30px;
-  padding-left:20px;
+  width: 30px;
+  height: 30px;
+  padding-top:12px;
 }
 
 .reservationDetail{
