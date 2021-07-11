@@ -35,9 +35,8 @@
           </div>
         </div>
       </div>
-      <div>
-        <h2 class="title" @click="watchLeft">お気に入り店舗</h2>
-        <div v-if="right" key="right" class="favorite">
+      <h2 class="title" @click="watchLeft">お気に入り店舗</h2>
+      <div v-if="right" key="right" class="favorite">
           <div class="restaurant-info flex" v-for="restaurant in restaurantList" :key="restaurant.name">
             <img :src="restaurant.url" class="restaurantPic" style="height:400px;width:400px">
             <div class="restaurantDetail">
@@ -51,7 +50,6 @@
                 <button @click="$router.push({name:'Detail',params:{id:restauranr.id}})">詳しく見る</button>
                 <img  class="heart">
               </div>
-            </div>
           </div>
         </div>
       </div>
@@ -108,6 +106,7 @@ import Header from "../components/Header.vue";
 .title{
   margin:15px;
   font-size:20px;
+  margin:0 auto;
 }
 img{
   display: block;
