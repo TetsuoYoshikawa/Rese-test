@@ -5,7 +5,7 @@
       <div class="item">
         <div class="restaurantCard flex">
           <div class="restaurantName" >
-            <img class="img"  src="../assets/Back.png" @click="$router.push('/login')">
+            <img class="img"  src="../assets/Back.png" @click="$router.push('/')">
             <p class="restaurantTitle">Tatile</p>
           </div>
           <img src="../assets/search.jpeg" class="restaurantPic">
@@ -50,6 +50,16 @@
               <button @click="($router.push('/thanks'),{name:reserve})" class="button btn btn-border-shadow btn-border-shadow--color2">予約する</button>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="Modal" v-if="openModal" key=openModel>
+      <div>
+        <div class="card">
+          <h2>予約内容の確認</h2>
+        </div>
+        <div class="message">
+          <div class=""></div>
         </div>
       </div>
     </div>
@@ -128,7 +138,6 @@ export default {
   height:30px;
   padding-left:20px;
 }
-
 .reservationDetail{
   box-shadow: 2px 2px 2px;
   height:500px;

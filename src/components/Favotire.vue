@@ -1,11 +1,13 @@
 <template>
-  <vue-star animate="animated rubberBand" color="#F05654">
-    <a slot="icon" class="fa fa-heart" @click="handleClick"></a>
-  </vue-star>
+  <div class="app">
+    <vue-star animate="animated rubberBand" color="#F05654">
+      <a slot="icon" class="fa fa-heart" @click="handleClick"></a>
+    </vue-star>
+  </div>
 </template>
 
 <script>
-import vuestar from 'vue-star';
+import VueStar from 'vue-star';
 export default{
   mounted:{
     handleClick(){
@@ -19,7 +21,17 @@ export default{
     }
   },
   component:{
-    vuestar
+    VueStar
   }
 }
 </script>
+
+<style scoped>
+vue-star {
+  position: relative;
+}
+vue-star .fa {
+  font-size: 3em;
+  cursor: pointer;
+}
+</style>

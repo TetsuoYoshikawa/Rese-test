@@ -2,8 +2,8 @@
   <div>
     <Header />
     <div class="card">
+      <h2 class="title">ご予約ありがとうございます</h2>
       <div class="message">
-        <h2>ご予約ありがとうございます</h2>
         <button type="submit" @click="$router.push('/')">マイページに戻る</button>
       </div>
     </div>
@@ -19,6 +19,17 @@ export default{
 }
 </script>
 <style scoped>
+/*///////////////////
+      予約画面       
+////////////////////*/
+.title{
+  color:white;
+  background: #ff7300;
+  height:70px;
+  line-height: 70px;
+  text-align: center;
+  border-radius: 5px 5px 0 0;
+}
 .card {
  margin: 200px auto;
  width: 350px;
@@ -27,12 +38,30 @@ export default{
  text-align: center;
  box-shadow: 2px 2px 4px;
 }
-
 .message{
-  padding:30px 0;
+  padding-bottom:20px;
 }
+/*////////////////
+    ボタン編集  
+///////////////// */
 button{
   margin:30px 0 10px 0;
 }
-
+button{
+  margin:30px 0 10px 0;
+  position: relative;
+  display: inline-block;
+  padding: 0.25em 2.0em;
+  text-decoration: none;
+  color: #FFF;
+  background: #ff7300;
+  border-bottom: solid 2px #d27d00;
+  border-radius: 4px;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+  font-weight: bold;
+}
+button:active{
+  border-bottom: solid 2px #fd9535;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}
 </style>

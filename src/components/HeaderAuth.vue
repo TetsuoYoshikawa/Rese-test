@@ -1,11 +1,12 @@
 <template>
   <div class="header">
     <img class="header-img" src="../assets/store.png">
-    <h2>RESE</h2>
+    <h2 class="header-title">RESE</h2>
     <div class="right flex">
       <select class="search" v-model="searchPrefecture">
         <option value="">All Prefecutes</option>
-        <option v-for="(prefecture,index) in prefectureList" :key="index" :value="prefecture.id">{{prefecture.name}}</option>
+        <option v-for="(prefecture,index) in prefectureList" :key="index" :value="prefecture.id">{{prefecture.name}}
+        </option>
       </select>
       <select class="search" v-model="searchGenre">
         <option value="">All Genre</option>
@@ -13,6 +14,9 @@
       </select>
       <input type="text" placeholder="Restaurant Name" v-model="searchRestaurant">
       <button class="button" type="submit" @click="searching">Search</button>
+    </div>
+    <div class="mypage">
+      <button type="submit" @click="$router.push('/mypage')">マイページ</button>
     </div>
   </div>
 </template>
@@ -28,13 +32,14 @@ export default{
       searchGenre:"",
       searchRestaurant:"",
       prefectureList:[
-        {name:"大阪"}
+        {name:"東京"}
       ],
       genreList:[
-        {name:"焼肉"}
+        {name:"焼肉",}
       ],
       restaurantList:[
-        {name:"root",prefecture:"大阪",genre:"焼肉"}
+        {name:"root",prefecture:"大阪",genre:"焼肉"},
+        {name:"住さん",prefecture:"東京",genre:"寿司"}
       ],
     };
   },
@@ -52,10 +57,13 @@ export default{
   height: 20px;
   margin:0 20px;
 }
+.header-title{
+  color:white;
+  font-size:25px;
+}
 .right{
   align-items:center;
   margin: 0 auto;
-  
 }
 .right p {
   margin-right:20px;
@@ -68,9 +76,18 @@ export default{
 select,
 button,
 input{
-  padding:20px;
+  padding:15px;
   border:none;
-  
+  font-size: 16px;
 }
-
+button{
+  background-color:white;
+}
+.mypage{
+  margin:0 20px;
+  border-radius: 10px;
+}
+.mypage button{
+  border-radius: 30px;
+}
 </style>

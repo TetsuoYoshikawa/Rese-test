@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="card">
-      <p>Registration</p>
+      <div class="card-title">
+        <h2>Registration</h2>
+      </div>
       <div class="form">
         <div>
           <img class="img" src="../assets/username.png"/>
@@ -75,9 +77,10 @@ header{
  text-align: center;
  box-shadow: 2px 2px 4px;
 }
-.card p {
- color: black;
+.card-title h2 {
+ color: white;
  font-weight: bold;
+ font-size:20px;
  text-align: center;
  background-color:#ff7300;
  padding: 20px 0px;
@@ -100,14 +103,6 @@ input{
   padding-right:20px;
 }
 
-.button{
-  width: 50px;
-  text-align: center;
-  color: black;
-  cursor: pointer;
-  display:block;
-  margin-left: 220px;
-}
 .label {
   width: 200px;
   height: 30px;
@@ -116,7 +111,6 @@ input{
   outline: 0;
   border-bottom: 1px solid #d1d5db;
 }
-
 .underline {
   width: 200px;
   height: 2px;
@@ -125,5 +119,21 @@ input{
   transform: scaleX(0);
   transition: transform 0.18s ease-out;
 }
+.button{
+  position: relative;
+  display: inline-block;
+  margin: 10px auto;
+  padding:5px 20px;
+  text-decoration: none;
+  color: #FFF;
+  background: #ff7300;
+  border-bottom: solid 2px #d27d00;
+  border-radius: 4px;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+  font-weight: bold;
+}
+.button:active{
+  border-bottom: solid 2px #fd9535;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}
 </style>
-

@@ -14,8 +14,12 @@ header{
   background-color:#ff7300;
 }
 .header-img{
-  width:20px;
-  height: 20px;
+  width:30px;
+  height: 30px;
   margin:0 20px 0 0;
+}
+header h2{
+  color:white;
+  font-size:25px;
 }
 </style>
