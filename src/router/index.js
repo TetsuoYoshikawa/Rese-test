@@ -27,7 +27,7 @@ const routes = [
     component:MyPage
   },
   {
-    path: '/restairant/:detail',
+    path: '/',
     name: 'RestaurantDetail',
     component:RestaurantDetail
   },
@@ -42,7 +42,7 @@ const routes = [
     component:Thanks
   },
   {
-    path:'/',
+    path:'/restaurantlist',
     name:'RestaurantList',
     component:RestaurantList
   }

@@ -3,18 +3,19 @@
     <Header />
     <div class="restaurant-list">
       <div class="item">
-        <div class="restaurant-card flex">
+        <div class="restaurant-card flex" v-for="restaurant in restaurantList" :key="restaurant.name">
           <div class="restaurant-name" >
-            <img class="img"  src="../assets/Back.png" @click="$router.push('/')">
-            <p class="restaurant-title">Tatile</p>
+            <img class="img" src="../assets/Back.png" @click="$router.push('/')">
+            <h2 class="restaurant-title">Titile</h2>
           </div>
           <img src="../assets/search.jpeg" class="restaurant-pic">
           <div class="restaurant-detail">
-            <div class="tag">
-              <p>#osaka #yakiniku</p>
+            <div class="tag" style="padding:20px;font-size:20px"> 
+              <p>#{{restaurant.prefecture}} #{{restaurant.genre}}</p>
             </div>
-            <div class="description">
-              <p>setumei</p>
+            <div class="description" style="padding-left:20px;font-size:16px">
+              <p>{{restaurant.detail}}
+              </p>
             </div>
           </div>
         </div>
@@ -56,7 +57,7 @@
                   </select>
                 </div>
               </form>
-              <button @click="($router.push('/thanks'),{name:reserve})" class="button btn btn-border-shadow btn-border-shadow--color2">予約する</button>
+              <button @click="($router.push('/done'),{name:reserve})" class="button btn btn-border-shadow btn-border-shadow--color2">予約する</button>
             </div>
           </div>
         </div>
@@ -90,6 +91,19 @@ export default {
       number:"",
       DatePickerFormat: 'yyyy-MM-dd',
       ja:ja,
+      prefectures:[],
+      genres:[],
+      restaurants:[],
+      searchPrefecture:"",
+      searchGenre:"",
+      searchRestaurant:"",
+      restaurantList:[
+        {name:"root",
+        prefecture:"大阪",
+        genre:"焼肉",
+        url:"https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg",
+        detail:"料理長厳選の食材からつくる寿司を用いたコースを是非お楽しみください。食材・味・価格、お客様の満足度を徹底的に追求したお店です。特別な日のお食事、ビジネス接待まで気軽に使用する事ができます。"},
+      ]
     };
   }, 
   methods:{
@@ -136,8 +150,12 @@ export default {
 .restaurant-title{
   padding:5px 0 0 20px;;
 }
+h2{
+  font-size:20px;
+}
 .restaurant-pic {
   width: 100%;
+  height:400px;
 }
 .restaurant-detail {
   margin: 0 20px;
@@ -152,7 +170,7 @@ export default {
 //////////// */
 .reservation-detail{
   box-shadow: 2px 2px 2px;
-  height:500px;
+  height:590px;
 }
 .title{
   background-color:#4fb683;
@@ -179,7 +197,7 @@ export default {
 }
 select {
   display: inline-block;
-  width: 500px;
+  width: 400px;
   height:30px;
   margin-bottom:30px;
 }

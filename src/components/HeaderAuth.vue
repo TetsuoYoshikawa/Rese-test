@@ -73,15 +73,20 @@ export default{
   width:150px;
   cursor: pointer;
 }
-select,
-button,
-input{
+select{
   padding:15px;
   border:none;
   font-size: 16px;
 }
+input{
+  padding:17px;
+  border:none;
+}
 button{
   background-color:white;
+  padding:17px;
+  border:none;
+  margin-top:1px;
 }
 .mypage{
   margin:0 20px;

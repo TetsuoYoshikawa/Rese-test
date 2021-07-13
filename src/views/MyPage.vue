@@ -1,17 +1,18 @@
 <template>
   <div>
+    <Header />
     <div class="mypage flex">
       <div v-if="left" key="left" class="reserve">
         <h2 @click="watchRight">予約状況</h2>
-        <div v-for="reserve in reserves" :key="reserve.id">
+        <div v-for="reserve in reserveList" :key="reserve.id">
           <div class="reserve-info">
             <div class="reserve-top flex">
-              <img src="../assets/time.png" style="height:30px;width:30px;margin:0 20px">
+              <img :src=reserve.url style="height:30px;width:30px;margin:0 20px">
               <p>予約 No.{{reserve.id}}</p>
               <img src="../assets/cross.png" style="height:30px;width:30px;margin-left: auto;padding-right:20px">
             </div>
             <div class="flex">
-              <img src="../assets/sushi.jpg" style="width:40%;height:300px;">
+              <img src="" style="width:40%;height:300px;">
               <div class="reserve-list">
                 <div class="reserve-itme">
                   <p>NAME: {{reserve.name}}</p>
@@ -35,7 +36,7 @@
         <div >
           <div class="item">
             <div class="restaurant-card flex" v-for="restaurant in restaurantList" :key="restaurant.name">
-              <img src="../assets//sushi.jpg" class="restaurant-pic">
+              <img src="" class="restaurant-pic">
               <div class="restaurant-detail">
                 <div class="restaurant-name">
                   <p>{{restaurant.name}}</p>
@@ -60,17 +61,19 @@
 
 
 <script>
+import Header from '../components/Header.vue';
   export default {
     data() {
       return {
         right: true,
         left: false,
-        reserves:[{
+        reserveList:[{
           id:1,
           name:"仙人",
           date:'2021-08-30',
           time:'18:00',
           number:3,
+          url:"https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg"
         }],
         restaurantList:[{
           name:"仙人",
@@ -89,6 +92,9 @@
         this.left = false;
         this.right = true;
       },
+    },
+    components:{
+      Header
     }
   };
 </script>

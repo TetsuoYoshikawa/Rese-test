@@ -4,7 +4,7 @@
     <div class="card">
       <h2 class="title">ご予約ありがとうございます</h2>
       <div class="message">
-        <button type="submit" @click="$router.push('/')">マイページに戻る</button>
+        <button type="submit" @click="$router.push('/mypage')">マイページに戻る</button>
       </div>
     </div>
   </div>
