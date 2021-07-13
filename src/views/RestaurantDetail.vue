@@ -1,15 +1,15 @@
 <template>
   <div>
     <Header />
-    <div class="restaurantList contents">
+    <div class="restaurant-list">
       <div class="item">
-        <div class="restaurantCard flex">
-          <div class="restaurantName" >
+        <div class="restaurant-card flex">
+          <div class="restaurant-name" >
             <img class="img"  src="../assets/Back.png" @click="$router.push('/')">
-            <p class="restaurantTitle">Tatile</p>
+            <p class="restaurant-title">Tatile</p>
           </div>
-          <img src="../assets/search.jpeg" class="restaurantPic">
-          <div class="restaurantDetail">
+          <img src="../assets/search.jpeg" class="restaurant-pic">
+          <div class="restaurant-detail">
             <div class="tag">
               <p>#osaka #yakiniku</p>
             </div>
@@ -20,23 +20,32 @@
         </div>
       </div>
       <div class="item">
-        <div class="reservationDetail">
+        <div class="reservation-detail">
           <h2 class="title">予約</h2>
           <div class="reservation">
             <div class="card">
               <form>
                 <div class="col-3 mx-auto" style="width: 250px;">
                   <select class="date" v-model="date">
-                  <vue-datepicker :format="DatePickerFormat" :bootstrap-styling="true" :language="ja"
+                  <vuejs-datepicker 
+                  :format="DatePickerFormat" :bootstrap-styling="true" 
+                  :language="ja"
                   placeholder="日付を選択してください"
-                  ></vue-datepicker>
+                  ></vuejs-datepicker>
                   </select>
                 </div>
                 <div>
                   <select class="time" v-model="time">
-                    <vue-timepicker format="hh::mm" id="timepicker" name="time" placeholder="時間を入力してください"
-                  input-class="form-control" :hour-range="[10,11,12,13,14,15,16,17,18,19,20,21,22,23]"
-                  :minute-range="[0,10,20,30,40,50]" hide-disabled-hours hide-disabled-minutes close-on-complete>
+                    <vue-timepicker
+                    placeholder="時間を入力してください"
+                    format="hh:mm" 
+                    id="timepicker" 
+                    name="time" 
+                    input-class="form-control" 
+                    :hour-range="[10,11,12,13,14,15,16,17,18,19,20,21,22,23]"
+                    :minute-range="[0,10,20,30,40,50]" hide-disabled-hours 
+                    hide-disabled-minutes 
+                    close-on-complete>
                     </vue-timepicker>
                   </select>
                 </div>
@@ -67,12 +76,12 @@
 </template>
 
 <script>
-import VueTimepicker from 'vue2-timepicker'
-import 'vue2-timepicker/dist/VueTimepicker.css'
-import VueDatepicker from 'vue2-datepicker'
-import 'vue2-datepicker/index'
-import {ja} from 'vuejs-datepicker/dist/locale'
-import Header from '../components/Header.vue'
+import VueTimepicker from 'vue2-timepicker';
+import 'vue2-timepicker/dist/VueTimepicker.css';
+import VuejsDatepicker from 'vue2-datepicker';
+import 'vue2-datepicker/index';
+import {ja} from 'vuejs-datepicker/dist/locale';
+import Header from '../components/Header.vue';
 export default {
   data () {
     return {
@@ -93,7 +102,7 @@ export default {
   },
   components: {
     'vue-timepicker': VueTimepicker,
-    'vue-datepicker':VueDatepicker,
+    'vuejs-datepicker':VuejsDatepicker,
     Header,
   },
 }
@@ -103,7 +112,7 @@ export default {
 /*///////////////////
 //   店舗情報詳細   //
 ///////////////////*/
-.contents {
+.restaurant-list {
   display: flex;
   flex-wrap: wrap;
 }
@@ -113,24 +122,24 @@ export default {
   justify-content: space-between;
   position: relative;
 }
-.restaurantPic {
-  width: 100%;
-}
-.restaurantName{
-  padding:20px 0;
-  display: flex;
-  line-height: 20px;
-}
-.restaurantTitle{
-  padding:5px 0 0 20px;;
-}
-.restaurantCard {
+.restaurant-card {
   background-color: white;
   color: black;
   box-shadow: 2px 2px 4px;
   padding-bottom: 20px;
 }
-.restaurantDetail {
+.restaurant-name{
+  padding:20px 0;
+  display: flex;
+  line-height: 20px;
+}
+.restaurant-title{
+  padding:5px 0 0 20px;;
+}
+.restaurant-pic {
+  width: 100%;
+}
+.restaurant-detail {
   margin: 0 20px;
 }
 .img {
@@ -138,7 +147,10 @@ export default {
   height:30px;
   padding-left:20px;
 }
-.reservationDetail{
+/*/////////////
+    予約内容
+//////////// */
+.reservation-detail{
   box-shadow: 2px 2px 2px;
   height:500px;
 }

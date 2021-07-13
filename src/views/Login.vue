@@ -9,7 +9,7 @@
           <div>
             <img class="img" src="../assets/email.png"/>
             <input placeholder="Email" type="email" v-model="email" class="label" />
-            <div class="underline"></div>
+            <div class="under-line"></div>
           </div>
           <div>
             <img class="img" src="../assets/password.png"/>
@@ -47,6 +47,9 @@ export default {
 
 
 <style scoped>
+/*///////////////
+   ログイン画面
+///////////////*/
 .card {
  margin: 200px auto;
  width: 350px;
@@ -80,7 +83,6 @@ input{
   height: 20px;
   padding-right:20px;
 }
-
 .label {
   width: 200px;
   height: 30px;
@@ -89,7 +91,7 @@ input{
   outline: 0;
   border-bottom: 1px solid #d1d5db;
 }
-.underline {
+.under-line {
   width: 200px;
   height: 2px;
   background: skyBlue;

@@ -67,20 +67,28 @@ export default{
     };
   },
   methods:{
+    async getRestaurantDetail(){
+      await axios
+        .get("https//127.0.0.1:8000")
+        .then((response => {
+          this.store = response.this.store;
+        }))
+    }
   },
   components:{
     HeaderAuth,
-    VueStar,
+    'VueStar':VueStar,
   }
 };
 </script>
 
 <style scoped>
+/*////////////////
+    店舗情報
+////////////////*/
 .item{
   width:90%;padding-left:20px;
   margin:0 auto;
-}
-.item{
   display: flex;
   flex-wrap: wrap;
 }
@@ -117,5 +125,4 @@ button{
       font-size: 3em;
       cursor: pointer;
     }
-
 </style>

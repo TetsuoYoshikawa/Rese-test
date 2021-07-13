@@ -10,39 +10,46 @@
               <p>予約 No.{{reserve.id}}</p>
               <img src="../assets/cross.png" style="height:30px;width:30px;margin-left: auto;padding-right:20px">
             </div>
-            <div class="reserve-itme flex">
-              <p>NAME:</p>
-              <p>{{reserve.name}}</p>
-            </div>
-            <div class="reserve-date flex">
-              <p>DATE:</p>
-              <p>{{reserve.date}}</p>
-            </div>
-            <div class="resevre-time flex">
-              <p>TIME:</p>
-              <p>{{reserve.time}}</p>
-            </div>
-            <div class="reserve-number flex">
-              <p>NUMBER:</p>
-              <p>{{reserve.number}}</p>
+            <div class="flex">
+              <img src="../assets/sushi.jpg" style="width:40%;height:300px;">
+              <div class="reserve-list">
+                <div class="reserve-itme">
+                  <p>NAME: {{reserve.name}}</p>
+                </div>
+                <div class="reserve-date">
+                  <p>DATE: {{reserve.date}}</p>
+                </div>
+                <div class="resevre-time">
+                  <p>TIME: {{reserve.time}}</p>
+                </div>
+                <div class="reserve-number">
+                  <p>NUMBER:{{reserve.number}}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div v-if="right" key="right" class="favorite">
         <h2 @click="watchLeft">お気に入り店舗</h2>
-        <div class="restaurant-info flex" v-for="restaurant in restaurantList" :key="restaurant.name">
-          <img src="../assets/logo.png" class="restaurantPic">
-          <div class="restaurantDetail">
-            <div class="restaurantName">
-              <p>{{restaurant.name}}</p>
-            </div>
-            <div class="tag">
-              <p>#{{restaurant.prefecture}} #{{restaurant.genre}}</p>
-            </div>
-            <div>
-              <button @click="$router.push({name:'Detail',params:{id:restauranr.id}})">詳しく見る</button>
-              <img :src="restaurant.url" class="heart">
+        <div >
+          <div class="item">
+            <div class="restaurant-card flex" v-for="restaurant in restaurantList" :key="restaurant.name">
+              <img src="../assets//sushi.jpg" class="restaurant-pic">
+              <div class="restaurant-detail">
+                <div class="restaurant-name">
+                  <p>{{restaurant.name}}</p>
+                </div>
+                <div class="tag">
+                  <p>#{{restaurant.prefecture}} #{{restaurant.genre}}</p>
+                </div>
+                <div>
+                  <button @click="$router.push({name:'Detail',params:{id:restauranr.id}})">詳しく見る</button>
+                  <vue-star animate="animated-rubberBand" color="#F05654">
+                    <a slot="icon" class="fa fa-heart" @click="handleClick"></a>
+                  </vue-star>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -87,36 +94,108 @@
 </script>
 
 <style scoped>
-.mypage{
+/*////////////////
+    ページ全体
+////////////////*/
+.mypage {
   justify-content: space-around;
 }
-.flex{
+.flex {
   display: flex;
   flex-wrap: wrap;
 }
-img{
-  display: block;
-  padding:10px 0;
+/*///////////////
+    予約状況
+///////////////*/
+.reserve {
+  width: 70%;
 }
-.reserve{
-  width:100%;
+.reserve h2{
+  margin-left:40%;
 }
-.reserve-info{
+.reserve-info {
   background-color: orange;
   border-radius: 5px;
-  height:400px;
+  height: 400px;
 }
-.reserve-top{
+.reserve-top {
   background-color: rgb(255, 214, 101);
 }
-.favorite{
-  width:45%;
+.reserve-list{
+  width:50%;
+  padding-left:20px;
+  background-color: white;
+  margin:0 auto;
+  border-radius: 10px;
 }
-.restaurant-info{
-  box-shadow: 2px 2px  2px 2px black;
-  height:400px;
+.reserve-list p{
+  padding-top: 20px;
 }
-.restaurantPic {
+/*///////////////////
+    お気に入り店舗
+///////////////////*/
+.favorite {
   width: 100%;
+}
+.favorite h2{
+  margin-left:50%;
+}
+.item{
+  width:90%;
+  padding-left:20px;
+  margin:0 auto;
+}
+.restaurant-card{
+  height:500px;
+  width:30%;
+  box-shadow: 2px 2px 2px black;
+  margin:10px 20px;
+}
+.restaurant-pic{
+  width:100%;
+  height:300px;
+}
+.restaurant-detail{
+    padding-left:20px;
+}
+.restaurant-name{
+  font-size:20px;
+}
+.tag{
+  font-size:16px;
+}
+img {
+  display: block;
+  padding: 10px 0;
+}
+/*/////////////////
+     ボタン詳細
+/////////////////*/
+button {
+  position: relative;
+  display: inline-block;
+  padding: 0.25em 2em;
+  text-decoration: none;
+  color: #fff;
+  background: #ff7300;
+  border-bottom: solid 2px #d27d00;
+  border-radius: 4px;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.2),
+    0 2px 2px rgba(0, 0, 0, 0.19);
+  font-weight: bold;
+}
+button:active {
+  border-bottom: solid 2px #fd9535;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+vue-star {
+position: relative;
+}
+vue-star .fa {
+  font-size: 25px;
+  cursor: pointer;
+}
+.fa{
+  padding-left:80px;
 }
 </style>

@@ -42,7 +42,7 @@ export default{
   padding-bottom:20px;
 }
 /*////////////////
-    ボタン編集  
+    ボタン詳細  
 ///////////////// */
 button{
   margin:30px 0 10px 0;

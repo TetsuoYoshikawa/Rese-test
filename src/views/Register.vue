@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <div class="card">
@@ -8,12 +9,12 @@
         <div>
           <img class="img" src="../assets/username.png"/>
           <input placeholder="UserName" type="text" v-model="name" class="label"/>
-          <div class ="underline"></div>
+          <div class ="under-line"></div>
         </div>
         <div>
           <img class="img" src="../assets/email.png"/>
           <input placeholder="Email" type="email" v-model="email" class="label"/>
-          <div class ="underline"></div>
+          <div class ="under-line"></div>
         </div>
         <div>
           <img class="img" src="../assets/password.png" />
@@ -57,18 +58,9 @@ export default {
 </script>
 
 <style scoped>
-header{
-  display:flex;
-  height:70px;
-  align-items: center;
-  padding: 0 30px;
-  background-color:#ff7300;
-}
-.header-img{
-  width:20px;
-  height: 20px;
-  margin:0 20px 0 0;
-}
+/*///////////
+   登録画面
+///////////*/
 .card {
  margin: 200px auto;
  width: 350px;
@@ -102,7 +94,6 @@ input{
   height: 20px;
   padding-right:20px;
 }
-
 .label {
   width: 200px;
   height: 30px;
@@ -111,7 +102,7 @@ input{
   outline: 0;
   border-bottom: 1px solid #d1d5db;
 }
-.underline {
+.under-line {
   width: 200px;
   height: 2px;
   background: skyBlue;

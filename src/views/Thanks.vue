@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <Header />
@@ -22,18 +23,9 @@ export default{
 }
 </script>
 <style scoped>
-header{
-  display:flex;
-  height:70px;
-  align-items: center;
-  padding: 0 30px;
-  background-color:#ff7300;
-}
-.header-img{
-  width:20px;
-  height: 20px;
-  margin:0 20px 0 0;
-}
+/*////////////////
+    ありがとう 
+////////////////*/
 .card {
  margin: 200px auto;
  width: 350px;
