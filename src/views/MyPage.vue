@@ -65,8 +65,8 @@ import Header from '../components/Header.vue';
   export default {
     data() {
       return {
-        right: false,
-        left: true,
+        right: true,
+        left: false,
         reserveList:[
           {
           id:1,
