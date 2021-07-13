@@ -3,7 +3,7 @@
     <Header />
     <div class="mypage flex">
       <div v-if="left" key="left" class="reserve">
-        <h2 @click="watchRight">予約状況</h2>
+        <h2 @click="watchLeft">予約状況</h2>
         <div v-for="reserve in reserveList" :key="reserve.id">
           <div class="reserve-info">
             <div class="reserve-top flex">
@@ -32,7 +32,7 @@
         </div>
       </div>
       <div v-if="right" key="right" class="favorite">
-        <h2 @click="watchLeft">お気に入り店舗</h2>
+        <h2 @click="watchRight">お気に入り店舗</h2>
         <div >
           <div class="item">
             <div class="restaurant-card flex" v-for="restaurant in restaurantList" :key="restaurant.name">
@@ -65,9 +65,10 @@ import Header from '../components/Header.vue';
   export default {
     data() {
       return {
-        right: true,
-        left: false,
-        reserveList:[{
+        right: false,
+        left: true,
+        reserveList:[
+          {
           id:1,
           name:"仙人",
           date:'2021-08-30',
@@ -84,7 +85,7 @@ import Header from '../components/Header.vue';
       };
     },
     methods: {
-      watchleft() {
+      watchLeft() {
         this.left = true;
         this.right = false;
       },
@@ -115,9 +116,10 @@ import Header from '../components/Header.vue';
 ///////////////*/
 .reserve {
   width: 70%;
+  padding-top:20px;
 }
 .reserve h2{
-  margin-left:40%;
+  margin-left:20%;
 }
 .reserve-info {
   background-color: orange;
@@ -142,6 +144,7 @@ import Header from '../components/Header.vue';
 ///////////////////*/
 .favorite {
   width: 100%;
+  padding-top:20px;
 }
 .favorite h2{
   margin-left:50%;
