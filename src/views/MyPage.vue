@@ -45,7 +45,11 @@
                   <p>#{{restaurant.prefecture}} #{{restaurant.genre}}</p>
                 </div>
                 <div>
-                  <button @click="$router.push({name:'Detail',params:{id:restauranr.id}})">詳しく見る</button>
+                  <button @click="
+                  $router.push({
+                    path:'/detail/' + store.restaurant_id,
+                    name:'Detail',
+                    params:{id:restauranr.id}})">詳しく見る</button>
                   <vue-star animate="animated-rubberBand" color="#F05654">
                     <a slot="icon" class="fa fa-heart" @click="handleClick"></a>
                   </vue-star>
@@ -62,42 +66,50 @@
 
 <script>
 import Header from '../components/Header.vue';
-  export default {
-    data() {
-      return {
-        right: true,
-        left: false,
-        reserveList:[
-          {
-          id:1,
-          name:"仙人",
-          date:'2021-08-30',
-          time:'18:00',
-          number:3,
-          url:"https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg"
-        }],
-        restaurantList:[{
-          name:"仙人",
-          prefecture:"東京",
-          genre:"焼肉",
-          url:"https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg",
-        }],
-      };
+export default {
+  data() {
+    return {
+      right: true,
+      left: false,
+      reserveList:[
+        {
+        id:1,
+        name:"仙人",
+        date:'2021-08-30',
+        time:'18:00',
+        number:3,
+        url:"https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg"
+      }],
+      restaurantList:[{
+        name:"仙人",
+        prefecture:"東京",
+        genre:"焼肉",
+        url:"https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg",
+      }],
+    };
+  },
+  mounted: function(){
+    this.$refs.ThumbsUp.$data.active = true;
+    console.log(this.$refs.ThumbsUp.$data);
+  },
+  methods: {
+    handleClick () {
+    console.log(this.$refs.ThumbsUp.$data);
+    
     },
-    methods: {
-      watchLeft() {
-        this.left = true;
-        this.right = false;
-      },
-      watchRight() {
-        this.left = false;
-        this.right = true;
-      },
+    watchLeft() {
+      this.left = true;
+      this.right = false;
     },
-    components:{
-      Header
-    }
-  };
+    watchRight() {
+      this.left = false;
+      this.right = true;
+    },
+  },
+  components:{
+    Header
+  }
+};
 </script>
 
 <style scoped>

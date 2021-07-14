@@ -25,9 +25,6 @@
 export default{
   data(){
     return{
-      prefectures:[],
-      genres:[],
-      restaurants:[],
       searchPrefecture:"",
       searchGenre:"",
       searchRestaurant:"",
@@ -43,6 +40,26 @@ export default{
       ],
     };
   },
+  methods:{
+    async getResurantSearch(){
+      await axios
+      .get("http://127.0.0.1:8000/api/vi/restaurants" 
+      + this.$store.state.restaurant.id,
+      {
+        param:{
+          restaurant_id:this.searchRestaurant,
+          prefecture_id:this.searchPrefecture,
+          genre_id:this.searchGenre,
+        },
+      }
+      )
+      .then((response) => {
+        this.restaurantList = response.data.restaurant;
+        this.prefectureList = response.data.prefecture;
+        this.genreList = response.data.genre;
+      })
+    }
+  }
 };
 </script>
 <style scoped>

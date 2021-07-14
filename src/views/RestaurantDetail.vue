@@ -91,12 +91,7 @@ export default {
       number:"",
       DatePickerFormat: 'yyyy-MM-dd',
       ja:ja,
-      prefectures:[],
-      genres:[],
       restaurants:[],
-      searchPrefecture:"",
-      searchGenre:"",
-      searchRestaurant:"",
       restaurantList:[
         {name:"root",
         prefecture:"大阪",
@@ -105,14 +100,16 @@ export default {
         detail:"料理長厳選の食材からつくる寿司を用いたコースを是非お楽しみください。食材・味・価格、お客様の満足度を徹底的に追求したお店です。特別な日のお食事、ビジネス接待まで気軽に使用する事ができます。"},
       ]
     };
-  }, 
+  },
   methods:{
     async getRestaurant() {
       const resData = await this.$axios.get(
-        "http://127.0.0.1:8000/api/contact/"
+        "http://127.0.0.1:8000/api/contact/ + restaurant.id"
       );
       this.restaurant = resData.data.data;
-    }
+    },
+    
+    
   },
   components: {
     'vue-timepicker': VueTimepicker,

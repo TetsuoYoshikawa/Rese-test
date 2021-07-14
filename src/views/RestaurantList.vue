@@ -3,7 +3,7 @@
     <HeaderAuth />
     <div class="restaurant-list contents">
       <div class="item">
-        <div class="restaurant-card flex" v-for="restaurant in restaurantList" :key="restaurant.name">
+        <div class="restaurant-card flex" v-for="restaurant in restaurants" :key="restaurant.id">
           <img :src=restaurant.url class="restaurant-pic">
           <div class="restaurant-detail">
             <div class="restaurant-name">
@@ -13,9 +13,13 @@
               <p>#{{restaurant.prefecture}} #{{restaurant.genre}}</p>
             </div>
             <div>
-              <button @click="$router.push({name:'Detail',params:{id:restauranr.id}})">詳しく見る</button>
+              <button @click="
+              $router.push({
+                path:'/detail/',
+                name:'Detail',
+                params:{id:restauranr.id}})">詳しく見る</button>
               <vue-star animate="animated rubberBand" color="#F05654">
-                <a slot="icon" class="fa fa-heart" @click="handleClick"></a>
+                <a slot="icon" class="fa fa-heart" @click="fav(restaurant)"></a>
               </vue-star>
             </div>
           </div>
@@ -32,13 +36,7 @@ export default{
   props:['id'],
   data(){
     return{
-      prefectures:[],
-      genres:[],
-      restaurants:[],
-      searchPrefecture:"",
-      searchGenre:"",
-      searchRestaurant:"",
-      restaurantList:[
+      restaurants:[
         {name:"root",
         prefecture:"大阪",
         genre:"焼肉",
@@ -66,14 +64,36 @@ export default{
       ],
     };
   },
+  mounted: function(){
+    this.$refs.ThumbsUp.$data.active = true;
+    console.log(this.$refs.ThumbsUp.$data);
+  },
   methods:{
-    async getRestaurantDetail(){
+    async getRestaurant(){
       await axios
-        .get("https//127.0.0.1:8000")
+        .get("https//127.0.0.1:8000/api/v1/restaurants")
         .then((response => {
-          this.store = response.this.store;
+          this.restaurants = response.data.data;
         }))
-    }
+        .catch(error => {
+          console.log(error)});
+    },
+    fav(restaurant) {
+      console.log(this.$refs.ThumbsUp.$data);
+      axios
+        .post("http://127.0.0.1:8000/api/v1/favorite",{
+          user_id:this.$store.state.user.id,
+          restaurant_id:store.restaurant.id
+        })
+        .then((response) => {
+          console.log(response);
+          this.$router.go({
+            path:this.$router.currentRoute.path,
+            force:true,
+          });
+        });
+    },
+    
   },
   components:{
     HeaderAuth,

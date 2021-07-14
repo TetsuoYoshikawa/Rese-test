@@ -8211,12 +8211,7 @@ vue-router@^3.2.0:
   resolved "https://registry.nlark.com/vue-router/download/vue-router-3.5.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fvue-router%2Fdownload%2Fvue-router-3.5.2.tgz#5f55e3f251970e36c3e8d88a7cd2d67a350ade5c"
   integrity sha1-X1Xj8lGXDjbD6NiKfNLWejUK3lw=
 
-vue-star@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/vue-star/-/vue-star-0.0.4.tgz#8471e22eac46cb96b5e49d2cdcd0951b3472a8ab"
-  integrity sha1-hHHiLqxGy5a15J0s3NCVGzRyqKs=
-
-vue-star@OYsun/VueStar:
+"vue-star@github:OYsun/VueStar":
   version "0.0.4"
   resolved "https://codeload.github.com/OYsun/VueStar/tar.gz/9a059f4d3a128bb5b20583c886079aecb873c9c5"
 
