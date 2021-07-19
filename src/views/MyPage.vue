@@ -4,7 +4,8 @@
     <div class="mypage flex">
       <div v-if="left" key="left" class="reserve">
         <h2 @click="watchLeft">予約状況</h2>
-        <div v-for="reserve in reserveList" :key="reserve.id">
+        <div v-for="(resrve,index) in reserves" :key="index">
+          <p v-if="notFavorite">お気に入り店舗はございません</p>
           <div class="reserve-info">
             <div class="reserve-top flex">
               <img :src=reserve.url style="height:30px;width:30px;margin:0 20px">
@@ -34,8 +35,9 @@
       <div v-if="right" key="right" class="favorite">
         <h2 @click="watchRight">お気に入り店舗</h2>
         <div >
+          <p v-if="notFavorite">お気に入り店舗はございません</p>
           <div class="item">
-            <div class="restaurant-card flex" v-for="restaurant in restaurantList" :key="restaurant.name">
+            <div class="restaurant-card flex" v-for="(restaurant,index) in favorites" :key="index">
               <img src="" class="restaurant-pic">
               <div class="restaurant-detail">
                 <div class="restaurant-name">
@@ -71,7 +73,7 @@ export default {
     return {
       right: true,
       left: false,
-      reserveList:[
+      reserves:[
         {
         id:1,
         name:"仙人",
@@ -80,7 +82,7 @@ export default {
         number:3,
         url:"https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg"
       }],
-      restaurantList:[{
+      favorites:[{
         name:"仙人",
         prefecture:"東京",
         genre:"焼肉",
@@ -93,6 +95,36 @@ export default {
     console.log(this.$refs.ThumbsUp.$data);
   },
   methods: {
+    async getFavorite(){
+      await axios
+        .get('http://127.0.0.1:8000/api/v1/favorites')
+        .then((response) => {
+          this.favorites = response.data.data;
+          if(this.favorites === 0){
+            this.notFavorite = true;
+          }else{
+            this.notFavorite = false;
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+    },
+    async getReservation(){
+      await axios 
+        .get('http://127.0.0.1:8000/api/v1/reservaions')
+        .then((response) => {
+          this.reserves = response.data.data;
+          if(this.reserves === 0){
+            this.notReserve = true
+          }else{
+            this.notReserve = false
+          };
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+    },
     handleClick () {
     console.log(this.$refs.ThumbsUp.$data);
     
@@ -105,10 +137,15 @@ export default {
       this.left = false;
       this.right = true;
     },
+    
+  },
+  created(){
+    this.getFavorite();
+    this.getReservation();
   },
   components:{
     Header
-  }
+  },
 };
 </script>
 

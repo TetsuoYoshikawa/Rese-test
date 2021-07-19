@@ -40,6 +40,7 @@ export default{
       ],
     };
   },
+  /*
   methods:{
     async getResurantSearch(){
       await axios
@@ -60,6 +61,7 @@ export default{
       })
     }
   }
+  */
 };
 </script>
 <style scoped>

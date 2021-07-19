@@ -30,6 +30,7 @@
 </template>
 
 <script>
+
 import VueStar from 'vue-star';
 import HeaderAuth from '../components/HeaderAuth.vue';
 export default{
@@ -68,6 +69,7 @@ export default{
     this.$refs.ThumbsUp.$data.active = true;
     console.log(this.$refs.ThumbsUp.$data);
   },
+  /*
   methods:{
     async getRestaurant(){
       await axios
@@ -91,13 +93,13 @@ export default{
             path:this.$router.currentRoute.path,
             force:true,
           });
-        });
+        });  
     },
-    
-  },
+  },*/
+
   components:{
     HeaderAuth,
-    'VueStar':VueStar,
+    VueStar,
   }
 };
 </script>
