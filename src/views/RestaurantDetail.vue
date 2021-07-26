@@ -1,12 +1,13 @@
+
 <template>
   <div>
     <Header />
     <div class="restaurant-list">
       <div class="item">
-        <div class="restaurant-card flex" v-for="restaurant in restaurantList" :key="restaurant.name">
+        <div class="restaurant-card flex">
           <div class="restaurant-name" >
             <img class="img" src="../assets/Back.png" @click="$router.push('/')">
-            <h2 class="restaurant-title">Titile</h2>
+            <h2 class="restaurant-title">{{restaurant.name}}</h2>
           </div>
           <img src="../assets/search.jpeg" class="restaurant-pic">
           <div class="restaurant-detail">
@@ -77,6 +78,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import VueTimepicker from 'vue2-timepicker';
 import 'vue2-timepicker/dist/VueTimepicker.css';
 import VuejsDatepicker from 'vue2-datepicker';
@@ -102,14 +104,28 @@ export default {
     };
   },
   methods:{
-    async getRestaurant() {
-      const resData = await this.$axios.get(
-        "http://127.0.0.1:8000/api/contact/ + restaurant.id"
-      );
-      this.restaurant = resData.data.data;
+    async getRestaurantDetail() {
+      await axios
+        .get("http://127.0.0.1:8000/api/contact/ + restaurant.id")
+        .then((response) => {
+          this.restaurants = response.data.data;
+        });
     },
-    
-    
+    async postReservation(){
+      await axios
+        .post("https://127.0.0.1:8000/api/v1/reservaions",{
+          user_id:this.$store.state.user.id,
+          restaurant_id:this.restaurant_id,
+          date:this.date,
+          time:this.time,
+          number_reservation:this.number,
+        })
+        .then((response) => 
+        console.log(response));
+    }
+  },
+  created(){
+    this.getRestaurantDetail()
   },
   components: {
     'vue-timepicker': VueTimepicker,

@@ -2,13 +2,16 @@
   <div class="header">
     <img class="header-img" src="../assets/store.png">
     <h2 class="header-title">RESE</h2>
+    <div v-for="(prefecture,index) in prefectureList" :key="index" :value="prefecture.id">
+      <p>{{prefecture.name}}</p>
+    </div>
     <div class="right flex">
-      <select class="search" v-model="searchPrefecture">
+      <select class="search" v-model="searchPrefecture" @click="prefectureData">
         <option value="">All Prefecutes</option>
         <option v-for="(prefecture,index) in prefectureList" :key="index" :value="prefecture.id">{{prefecture.name}}
         </option>
       </select>
-      <select class="search" v-model="searchGenre">
+      <select class="search" v-model="searchGenre" @click="genreData">
         <option value="">All Genre</option>
         <option v-for="(genre,index) in genreList" :key="index" :value="genre.id">{{genre.name}}</option>
       </select>
@@ -22,26 +25,45 @@
 </template>
 
 <script>
+import axios from "axios";
 export default{
   data(){
     return{
+      searchRestaurant:"",
       searchPrefecture:"",
       searchGenre:"",
-      searchRestaurant:"",
-      prefectureList:[
-        {name:"東京"}
-      ],
-      genreList:[
-        {name:"焼肉",}
-      ],
-      restaurantList:[
-        {name:"root",prefecture:"大阪",genre:"焼肉"},
-        {name:"住さん",prefecture:"東京",genre:"寿司"}
-      ],
+      prefectureList:[],
+      genreList:[],
+      restaurantList:[],
     };
   },
-  /*
   methods:{
+    prefectureData(){
+      this.$emit('catchPrefecture',this.prefectureList)
+    },
+    genreData(){
+      this.$emit('catchGenre',this.genreList)
+    },
+    async getPrefecture(){
+      await axios
+      .get("http://127.0.0.1:8000/api/prefectures")
+      .then((response) => {
+        this.prefectureList = response.data.data;
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+    async getGenre(){
+      await axios
+      .get("http://127.0.0.1:8000/api/genres")
+      .then((response) => {
+        this.genreList = response.data;
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
     async getResurantSearch(){
       await axios
       .get("http://127.0.0.1:8000/api/vi/restaurants" 
@@ -59,9 +81,11 @@ export default{
         this.prefectureList = response.data.prefecture;
         this.genreList = response.data.genre;
       })
+    },
+    created(){
+    this.getPrefecture();
     }
   }
-  */
 };
 </script>
 <style scoped>

@@ -22,12 +22,12 @@ const routes = [
     component:Register
   },
   {
-    path: '/',
+    path: '/m',
     name: 'MyPage',
     component:MyPage
   },
   {
-    path: '/s',
+    path: '/w',
     name: 'RestaurantDetail',
     component:RestaurantDetail
   },
@@ -42,7 +42,7 @@ const routes = [
     component:Thanks
   },
   {
-    path:'/restaurantlist',
+    path:'/',
     name:'RestaurantList',
     component:RestaurantList
   }

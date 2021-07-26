@@ -1,23 +1,24 @@
+
 <template>
   <div>
-    <HeaderAuth />
+    <HeaderAuth @click="parentsPrefecture,parentGenre"/>
     <div class="restaurant-list contents">
       <div class="item">
-        <div class="restaurant-card flex" v-for="restaurant in restaurants" :key="restaurant.id">
-          <img :src=restaurant.url class="restaurant-pic">
+        <div class="restaurant-card flex" v-for="(restaurant,index) in restaurants" :key="index">
+          <img :src=restaurant.image_url class="restaurant-pic">
           <div class="restaurant-detail">
             <div class="restaurant-name">
               <p>{{restaurant.name}}</p>
             </div>
             <div class="tag">
-              <p>#{{restaurant.prefecture}} #{{restaurant.genre}}</p>
+              <p>#{{restaurant.prefecture_id}} #{{restaurant.genre_id}}</p>
             </div>
             <div>
               <button @click="
               $router.push({
                 path:'/detail/',
                 name:'Detail',
-                params:{id:restauranr.id}})">詳しく見る</button>
+                params:{id:restaurant.id}})">詳しく見る</button>
               <vue-star animate="animated rubberBand" color="#F05654">
                 <a slot="icon" class="fa fa-heart" @click="fav(restaurant)"></a>
               </vue-star>
@@ -30,62 +31,40 @@
 </template>
 
 <script>
-
 import VueStar from 'vue-star';
 import HeaderAuth from '../components/HeaderAuth.vue';
+import axios from "axios";
 export default{
   props:['id'],
   data(){
     return{
-      restaurants:[
-        {name:"root",
-        prefecture:"大阪",
-        genre:"焼肉",
-        url:"https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg"},
-        {name:"root",
-        prefecture:"大阪",
-        genre:"焼肉",
-        url:"https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg"},
-        {name:"root",
-        prefecture:"大阪",
-        genre:"焼肉",
-        url:"https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg"},
-        {name:"root",
-        prefecture:"大阪",
-        genre:"焼肉",
-        url:"https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg"},
-        {name:"root",
-        prefecture:"大阪",
-        genre:"焼肉",
-        url:"https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg"},
-        {name:"root",
-        prefecture:"大阪",
-        genre:"焼肉",
-        url:"https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg"}
-      ],
-    };
+      restaurants: [],
+      prefectures:[],
+      genres:[],
+    }
   },
   mounted: function(){
     this.$refs.ThumbsUp.$data.active = true;
     console.log(this.$refs.ThumbsUp.$data);
   },
-  /*
   methods:{
+    parentPrefecture(){
+      console.log();
+    },
     async getRestaurant(){
       await axios
-        .get("https//127.0.0.1:8000/api/v1/restaurants")
+        .get("http://127.0.0.1:8000/api/restaurants")
         .then((response => {
-          this.restaurants = response.data.data;
+          this.restaurants = response.data.data.restaurant;
         }))
         .catch(error => {
           console.log(error)});
     },
-    fav(restaurant) {
+    fav() {
       console.log(this.$refs.ThumbsUp.$data);
       axios
-        .post("http://127.0.0.1:8000/api/v1/favorite",{
+        .post("http://127.0.0.1:8000/api/favorites",{
           user_id:this.$store.state.user.id,
-          restaurant_id:store.restaurant.id
         })
         .then((response) => {
           console.log(response);
@@ -93,13 +72,15 @@ export default{
             path:this.$router.currentRoute.path,
             force:true,
           });
-        });  
+        });
     },
-  },*/
-
+  },
   components:{
     HeaderAuth,
-    VueStar,
+    'VueStar':VueStar,
+  },
+  created(){
+    this.getRestaurant();
   }
 };
 </script>
