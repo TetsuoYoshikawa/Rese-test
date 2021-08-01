@@ -55,9 +55,10 @@
                   path:'/detail/' + restaurant.id,
                   name:'Detail',
                   params:{id:restaurant.id}})">詳しく見る</button>
-                  <v-icon name="heart" scale="2" class="heart" 
+                  <img src="../assets/heart_red.png"
                   @click="favoriteDelete(restaurant)"
-                  ></v-icon>
+                  style="height:30px;width:30px;"
+                  >
                 </div>
               </div>
             </div>
@@ -70,8 +71,6 @@
 
 
 <script>
-import 'vue-awesome/icons';
-import Icon from 'vue-awesome/components/Icon';
 import axios from "axios";
 import Header from '../components/Header.vue';
 export default {
@@ -151,7 +150,6 @@ export default {
   },
   components:{
     Header,
-    'v-icon':Icon,
   },
 };
 </script>
