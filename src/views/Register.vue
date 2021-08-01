@@ -21,7 +21,7 @@
           <input placeholder="Password" type="password" v-model="password" class="label"/>
           <div class ="underline"></div>
         </div>
-        <button class="button" @click="auth">登録</button>
+        <button class="button" @click="register">登録</button>
       </div>
     </div>
   </div>
@@ -38,19 +38,19 @@ export default {
     };
   },
   methods:{
-    auth(){
-      axios
-      .post('https://local:8000',{
+    async register(){
+      await axios
+      .post('http://127.0.0.1:8000/api/register',{
         name:this.name,
         email:this.email,
         password:this.password,
       })
       .then((response) =>{
         console.log(response);
-        this.$router.replase("/");
+        this.$router.push("/thanks");
       })
-      .catch(error => {
-        alert(error);
+      .catch(() => {
+        alert("会員登録ができませんでした。お手数ですが再度お試しください");
       });
     }
   }

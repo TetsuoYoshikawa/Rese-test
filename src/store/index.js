@@ -10,14 +10,26 @@ export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
     auth: "",
-    user: "",
+    user_id: "",
+    user_name:"",
+    email:"",
+    token:"",
   },
   mutations: {
     auth(state, payload) {
       state.auth = payload;
     },
-    user(state, payload) {
-      state.user = payload;
+    user_id(state, payload) {
+      state.user_id = payload;
+    },
+    user_name(state,payload){
+      state.user_name = payload;
+    },
+    email(state,payload){
+      state.email = payload;
+    },
+    token(state,payload){
+      state.token = payload;
     },
     logout(state, payload) {
       state.auth = payload;
@@ -26,33 +38,30 @@ export default new Vuex.Store({
   actions: {
     async login({ commit }, { email, password }) {
       const responseLogin = await axios
-        .post("https://rese-booking.herokuapp.com/api/login", {
+        .post("http://127.0.0.1:8000/api/login", {
           email: email,
           password: password,
         })
         .catch(() => {
-          alert("ログインできませんでした");
+          alert('ログインできませんでした');
         });
-      const responseUser = await axios.get(
-        "https://rese-booking.herokuapp.com/api/user",
-        {
-          params: {
-            email: email,
-          },
-        }
-      );
+      commit("token",responseLogin.data.access_token);
       commit("auth", responseLogin.data.auth);
-      commit("user", responseUser.data.user);
+      commit("user_id", responseLogin.data.user.id);
+      commit("user_name", responseLogin.data.user.name);
+      commit("email", responseLogin.data.user.email);
       router.replace("/");
     },
-    logout({ commit }) {
-      axios
-        .post("https://rese-booking.herokuapp.com/api/logout", {
-          auth: this.state.auth,
-        })
+    async logout({ commit }) {
+      commit("auth",false);
+      const responseLogout = await axios
+        .post("http://127.0.0.1:8000/api/auth/logout", 
+        { data: ""},
+        { headers: { Authorization: 'Bearer ' + this.state.token } }
+      )
         .then((response) => {
           console.log(response);
-          commit("logout", response.data.auth);
+          commit("logout", responseLogout.data.auth);
           router.replace("/");
         })
         .catch((error) => {

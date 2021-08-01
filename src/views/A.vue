@@ -1,7 +1,25 @@
 
 <template>
   <div>
-    <HeaderAuth @catchPrefecture="prefectureData"/>
+    <div class="header">
+    <img class="header-img" src="../assets/store.png" />
+    <h2 class="header-title">RESE</h2>
+      <div class="right flex">
+        <select v-model="searchPrefecture">
+          <option value="">All Prefecutes</option>
+          <option v-for="prefecture in prefectures" :key="prefecture.name" >{{prefecture.name}}</option>
+        </select>
+        <select v-model="searchGenre">
+          <option value="">All Genre</option>
+          <option v-for="genre in genres" :key="genre.name">{{genre.name}}</option>
+        </select>
+        <input type="text" placeholder="Restaurant Name" v-model="searchRestaurant">
+        <button class="button" type="submit" @click="storeSearch">Search</button>
+      </div>
+      <div class="mypage">
+        <button type="submit" @click="$router.push({path: '/mypage'}, () => {})">マイページ</button>
+      </div>
+    </div>
     <div class="restaurant-list contents">
       <div class="item">
         <div class="restaurant-card flex" v-for="restaurant in restaurants" :key="restaurant.id">
@@ -20,13 +38,12 @@
               name:'Detail',
               params:{id:restaurant.id}})">詳しく見る</button>
                 <v-icon name="heart" scale="2" class="heart" 
-                @click="favoritePost(restaurant)" 
-                v-if="(restaurant.favorites)"
+                @click="favoriteDelete(restaurant)"
                 >
                 </v-icon>
                 <img src="../assets/heart_red.png"
-                @click="favoriteDelete(restaurant)" style="height:30px;width:30px;"
-                v-else
+                @click="favoritePost(restaurant)" style="height:30px;width:30px;"
+                
                 />
             </div>
           </div>
@@ -48,7 +65,13 @@ export default{
       restaurants: [],
       prefectures:[],
       genres:[],
-      favorites:[]
+      favorites:[],
+      restaurants: [],
+      prefectures:[],
+      genres:[],
+      searchPrefecture:"",
+      searchGenre:"",
+      searchRestaurant:""
     }
   },
   methods:{
@@ -100,6 +123,39 @@ export default{
         alert('いいねを削除しました')
       })
     },
+    async getPrefecture(){
+      await axios
+        .get("http://127.0.0.1:8000/api/prefectures")
+        .then((response) => {
+          this.prefectures = response.data.data;
+        })
+    },
+    async getGenre(){
+      await axios
+        .get("http://127.0.0.1:8000/api/genres")
+        .then((response) => {
+          this.genres = response.data.data;
+        })
+    },
+    async storeSearch() {
+      await axios
+        .get(
+          "http://127.0.0.1:8000/api/searchRestaurants/" +
+            this.$store.state.user.id,
+          {
+            params: {
+              name: this.searchrestaurant,
+              prefecture_id: this.searchPrefecture,
+              genre_id: this.searchGenre,
+            },
+          }
+        )
+        .then((response) => {
+          this.stores = response.data.data;
+          this.searchResult = false;
+          this.loading = false;
+        })
+    }
   },
   components:{
     HeaderAuth,
@@ -107,12 +163,63 @@ export default{
   },
   created(){
     this.getRestaurant();
-    this.getFavorite();
+    this.getFavorite();    
+    this.getPrefecture();
+    this.getGenre();
   }
 };
 </script>
 
 <style scoped>
+.header{
+  display:flex;
+  height:70px;
+  align-items: center;
+  background-color:#ff7300;
+}
+.header-img{
+  width:20px;
+  height: 20px;
+  margin:0 20px;
+}
+.header-title{
+  color:white;
+  font-size:25px;
+}
+.right{
+  align-items:center;
+  margin: 0 auto;
+}
+.right p {
+  margin-right:20px;
+  cursor: pointer;
+}
+.logo{
+  width:150px;
+  cursor: pointer;
+}
+select{
+  padding:15px;
+  border:none;
+  font-size: 16px;
+}
+input{
+  padding:17px;
+  border:none;
+}
+button{
+  background-color:white;
+  padding:17px;
+  border:none;
+  margin-top:1px;
+}
+.mypage{
+  margin:0 20px;
+  border-radius: 10px;
+}
+.mypage button{
+  border-radius: 30px;
+}
 /*////////////////
     店舗情報
 ////////////////*/

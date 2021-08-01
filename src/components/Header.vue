@@ -1,7 +1,7 @@
 <template>
   <header>
     <img class="header-img" src="../assets/store.png">
-    <h2>RESE</h2>
+    <h2 @click="$router.push('/')">RESE</h2>
   </header>
 </template>
 

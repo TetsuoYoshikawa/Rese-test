@@ -7,10 +7,17 @@ import RestaurantDetail from '../views/RestaurantDetail.vue';
 import Done from '../views/Done.vue';
 import Thanks from '../views/Thanks.vue';
 import RestaurantList from '../views/RestaurantList.vue';
+import store from '../store/index';
+//import A from '../views/A.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path:'/',
+    name:'RestaurantList',
+    component:RestaurantList
+  },
   {
     path: '/login',
     name: 'login',
@@ -22,14 +29,15 @@ const routes = [
     component:Register
   },
   {
-    path: '/m',
+    path: '/mypage',
     name: 'MyPage',
-    component:MyPage
+    component:MyPage,
   },
   {
-    path: '/w',
+    path: '/detail/:id',
     name: 'RestaurantDetail',
-    component:RestaurantDetail
+    component:RestaurantDetail,
+    props: true,
   },
   {
     path:'/done',
@@ -41,17 +49,33 @@ const routes = [
     name:'thanks',
     component:Thanks
   },
-  {
-    path:'/',
-    name:'RestaurantList',
-    component:RestaurantList
-  }
+  //{
+  //  path:'/',
+  //  name:'A',
+  //  component:A
+  //},
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to,from,next) => {
+  if(
+    to.matched.some((record) => record.meta.userAuth) &&
+    !store.state.auth
+  ){
+    next({
+      path:"/login",
+      query:{
+        redirect:to.fullPath,
+      },
+    });
+  }else{
+    next();
+  }
 });
 
 export default router;

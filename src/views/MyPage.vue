@@ -2,59 +2,62 @@
   <div>
     <Header />
     <div class="mypage flex">
-      <div v-if="left" key="left" class="reserve">
-        <h2 @click="watchLeft">予約状況</h2>
-        <div v-for="(resrve,index) in reserves" :key="index">
-          <p v-if="notFavorite">お気に入り店舗はございません</p>
+      <div  key="left" class="reserve">
+        <h2 class="title" @click="watchLeft">予約状況</h2>
+        <div  v-for="(reserve,index) in reserves" :key="index">
+          <p v-if="notFavorite">予約店舗はございません</p>
           <div class="reserve-info">
             <div class="reserve-top flex">
-              <img :src=reserve.url style="height:30px;width:30px;margin:0 20px">
-              <p>予約 No.{{reserve.id}}</p>
-              <img src="../assets/cross.png" style="height:30px;width:30px;margin-left: auto;padding-right:20px">
+              <img src="../assets/time.png" style="height:30px;width:30px;margin:0 20px;padding: 10px 0">
+              <p class="reserve-title">予約 No.{{reserve.id}}</p>
+              <img src="../assets/cross.png" @click="deleteReservation(reserve)" style="height:30px;width:30px;margin-left: auto;margin-right:20px;padding: 10px 0;">
             </div>
             <div class="flex">
-              <img src="" style="width:40%;height:300px;">
+              <img :src=reserve.restaurant.image_url style="width:40%;height:300px;padding: 10px 0;">
               <div class="reserve-list">
-                <div class="reserve-itme">
-                  <p>NAME: {{reserve.name}}</p>
+                <div class="reserve-name">
+                  <p>NAME: {{reserve.restaurant.name}}</p>
+                </div>
+                <div class="reserve-prefecture">
+                  <p>Prefecture: {{reserve.restaurant.prefecture.name}}</p>
+                </div>
+                <div class="reserve-genre">
+                  <p>Genre: {{reserve.restaurant.genre.name}}</p>
                 </div>
                 <div class="reserve-date">
-                  <p>DATE: {{reserve.date}}</p>
-                </div>
-                <div class="resevre-time">
-                  <p>TIME: {{reserve.time}}</p>
+                  <p>DATETIME: {{reserve.datetime}}</p>
                 </div>
                 <div class="reserve-number">
-                  <p>NUMBER:{{reserve.number}}</p>
+                  <p>NUMBER:{{reserve.number_reservation}}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div v-if="right" key="right" class="favorite">
+      <div  key="right" class="favorite">
         <h2 @click="watchRight">お気に入り店舗</h2>
         <div >
           <p v-if="notFavorite">お気に入り店舗はございません</p>
           <div class="item">
             <div class="restaurant-card flex" v-for="(restaurant,index) in favorites" :key="index">
-              <img src="" class="restaurant-pic">
+              <img :src=restaurant.restaurant.image_url class="restaurant-pic">
               <div class="restaurant-detail">
                 <div class="restaurant-name">
-                  <p>{{restaurant.name}}</p>
+                  <p>{{restaurant.restaurant.name}}</p>
                 </div>
                 <div class="tag">
-                  <p>#{{restaurant.prefecture}} #{{restaurant.genre}}</p>
+                  <p>#{{restaurant.restaurant.prefecture.name}}  #{{restaurant.restaurant.genre.name}}</p>
                 </div>
-                <div>
+                <div class="flex">
                   <button @click="
                   $router.push({
-                    path:'/detail/' + store.restaurant_id,
-                    name:'Detail',
-                    params:{id:restauranr.id}})">詳しく見る</button>
-                  <vue-star animate="animated-rubberBand" color="#F05654">
-                    <a slot="icon" class="fa fa-heart" @click="handleClick"></a>
-                  </vue-star>
+                  path:'/detail/' + restaurant.id,
+                  name:'Detail',
+                  params:{id:restaurant.id}})">詳しく見る</button>
+                  <v-icon name="heart" scale="2" class="heart" 
+                  @click="favoriteDelete(restaurant)"
+                  ></v-icon>
                 </div>
               </div>
             </div>
@@ -67,44 +70,26 @@
 
 
 <script>
+import 'vue-awesome/icons';
+import Icon from 'vue-awesome/components/Icon';
+import axios from "axios";
 import Header from '../components/Header.vue';
 export default {
   data() {
     return {
+      name:this.$store.state.user_id,
       right: true,
       left: false,
-      reserves:[
-        {
-        id:1,
-        name:"仙人",
-        date:'2021-08-30',
-        time:'18:00',
-        number:3,
-        url:"https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg"
-      }],
-      favorites:[{
-        name:"仙人",
-        prefecture:"東京",
-        genre:"焼肉",
-        url:"https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg",
-      }],
+      reserves:[],
+      favorites:[],
     };
-  },
-  mounted: function(){
-    this.$refs.ThumbsUp.$data.active = true;
-    console.log(this.$refs.ThumbsUp.$data);
   },
   methods: {
     async getFavorite(){
       await axios
-        .get('http://127.0.0.1:8000/api/v1/favorites')
+        .get('http://127.0.0.1:8000/api/favorites')
         .then((response) => {
           this.favorites = response.data.data;
-          if(this.favorites === 0){
-            this.notFavorite = true;
-          }else{
-            this.notFavorite = false;
-          }
         })
         .catch((error) => {
           console.log(error)
@@ -112,22 +97,43 @@ export default {
     },
     async getReservation(){
       await axios 
-        .get('http://127.0.0.1:8000/api/v1/reservaions')
-        .then((response) => {
-          this.reserves = response.data.data;
-          if(this.reserves === 0){
-            this.notReserve = true
-          }else{
-            this.notReserve = false
-          };
-        })
-        .catch((error) => {
-          console.log(error)
-        });
+      .get('http://127.0.0.1:8000/api/reservations')
+      .then((response) => {
+        this.reserves = response.data.data;
+      if(this.reserves === 0){
+          this.notReserve = true
+        }else{
+          this.notReserve = false
+        }})  
+      .catch((error) => {
+        console.log(error)
+      });
     },
-    handleClick () {
-    console.log(this.$refs.ThumbsUp.$data);
-    
+    async favoriteDelete(restaurant){
+      await axios
+      .delete('http://127.0.0.1:8000/api/favorites',{
+        data:{
+          user_id:restaurant.user_id,
+          restaurant_id:restaurant.restaurant_id
+        }
+      })
+      .then((response) => {
+        console.log(response);
+        alert('いいねを削除しました')
+      })
+    },
+    async deleteReservation(reserve){
+      await axios
+      .delete('http://127.0.0.1:8000/api/reservations',{
+        data:{
+          user_id:reserve.user_id,
+          restaurant_id:reserve.restaurant_id
+        }
+      })
+      .then((response) => {
+        console.log(response);
+        alert('予約を取り消しました')
+      })
     },
     watchLeft() {
       this.left = true;
@@ -144,7 +150,8 @@ export default {
     this.getReservation();
   },
   components:{
-    Header
+    Header,
+    'v-icon':Icon,
   },
 };
 </script>
@@ -160,6 +167,10 @@ export default {
   display: flex;
   flex-wrap: wrap;
 }
+img{
+  height:30px;
+  width:30px;
+}
 /*///////////////
     予約状況
 ///////////////*/
@@ -167,16 +178,23 @@ export default {
   width: 70%;
   padding-top:20px;
 }
-.reserve h2{
-  margin-left:20%;
-}
 .reserve-info {
   background-color: orange;
   border-radius: 5px;
   height: 400px;
+  margin-bottom: 20px;
 }
 .reserve-top {
   background-color: rgb(255, 214, 101);
+}
+.title{
+  text-align: center;
+  font-size: 20px;
+  padding-bottom: 20px;
+}
+.reserve-title{
+  font-size:20px;
+  line-height: 50px;
 }
 .reserve-list{
   width:50%;
@@ -191,60 +209,58 @@ export default {
 /*///////////////////
     お気に入り店舗
 ///////////////////*/
-.favorite {
-  width: 100%;
-  padding-top:20px;
+.favorite{
+  font-size: 20px;
+  padding-top: 20px;
 }
 .favorite h2{
-  margin-left:50%;
+  text-align: center;
 }
 .item{
   width:90%;
-  padding-left:20px;
   margin:0 auto;
+  display: flex;
+  flex-wrap: wrap;
 }
 .restaurant-card{
   height:500px;
   width:30%;
   box-shadow: 2px 2px 2px black;
-  margin:10px 20px;
+  margin:20px 20px;
+}
+.restaurant-name{
+  font-size:25px;
+  margin-left: 20px;
+}
+.tag{
+  font-size:20px;
+  padding:15px 0;
+  margin-left: 20px;
+}
+.heart{
+  padding-left:80px;
+  color:#F05654;
+}
+img {
+  display: block;
 }
 .restaurant-pic{
   width:100%;
   height:300px;
 }
-.restaurant-detail{
-    padding-left:20px;
-}
-.restaurant-name{
-  font-size:20px;
-}
-.tag{
-  font-size:16px;
-}
-img {
-  display: block;
-  padding: 10px 0;
+.flex{
+  display: flex;
+  flex-wrap: wrap;
 }
 /*/////////////////
      ボタン詳細
 /////////////////*/
-button {
-  position: relative;
-  display: inline-block;
-  padding: 0.25em 2em;
-  text-decoration: none;
-  color: #fff;
-  background: #ff7300;
-  border-bottom: solid 2px #d27d00;
-  border-radius: 4px;
-  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.2),
-    0 2px 2px rgba(0, 0, 0, 0.19);
-  font-weight: bold;
-}
-button:active {
-  border-bottom: solid 2px #fd9535;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+button{
+  padding:10px 20px;
+  margin-left: 20px;
+  background-color:#ff7300;
+  border:none;
+  border-radius: 10px;
 }
 vue-star {
 position: relative;

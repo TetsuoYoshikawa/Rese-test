@@ -1,21 +1,20 @@
-
 <template>
   <div>
     <Header />
     <div class="restaurant-list">
       <div class="item">
-        <div class="restaurant-card flex">
+        <div class="restaurant-card flex"  v-for="restaurant in restaurants" :key="restaurant.id">
           <div class="restaurant-name" >
             <img class="img" src="../assets/Back.png" @click="$router.push('/')">
             <h2 class="restaurant-title">{{restaurant.name}}</h2>
           </div>
-          <img src="../assets/search.jpeg" class="restaurant-pic">
+          <img :src=restaurant.image_url class="restaurant-pic">
           <div class="restaurant-detail">
             <div class="tag" style="padding:20px;font-size:20px"> 
-              <p>#{{restaurant.prefecture}} #{{restaurant.genre}}</p>
+              <p>#{{restaurant.prefecture.name}} #{{restaurant.genre.name}}</p>
             </div>
             <div class="description" style="padding-left:20px;font-size:16px">
-              <p>{{restaurant.detail}}
+              <p>{{restaurant.description}}
               </p>
             </div>
           </div>
@@ -24,53 +23,48 @@
       <div class="item">
         <div class="reservation-detail">
           <h2 class="title">予約</h2>
-          <div class="reservation">
+          <div class="reservation" >
             <div class="card">
               <form>
-                <div class="col-3 mx-auto" style="width: 250px;">
-                  <select class="date" v-model="date">
-                  <vuejs-datepicker 
-                  :format="DatePickerFormat" :bootstrap-styling="true" 
-                  :language="ja"
-                  placeholder="日付を選択してください"
-                  ></vuejs-datepicker>
-                  </select>
-                </div>
-                <div>
-                  <select class="time" v-model="time">
-                    <vue-timepicker
+                <ul class="col-3 mx-auto" style="width: 300px;">
+                  <li class="date" >
+                    <Datepicker 
+                    :format="DatePickerFormat" :bootstrap-styling="true" 
+                    :language="ja"
+                    placeholder="日付を選択してください"
+                    v-model="date"
+                    ></Datepicker>
+                  </li>
+                </ul>
+                <ul>
+                  <li class="time" style="width: 300px;">
+                    <vuejs-timepicker
+                    v-model="time"
                     placeholder="時間を入力してください"
                     format="hh:mm" 
                     id="timepicker" 
                     name="time" 
                     input-class="form-control" 
-                    :hour-range="[10,11,12,13,14,15,16,17,18,19,20,21,22,23]"
+                    :hour-range="[10,11,12,13,14,15,16,17,18,19,20,21,22]"
                     :minute-range="[0,10,20,30,40,50]" hide-disabled-hours 
                     hide-disabled-minutes 
-                    close-on-complete>
-                    </vue-timepicker>
-                  </select>
-                </div>
-                <div>
-                  <select class="number" v-model="number">
-                    <option value="">人数を入力してください</option>
-                    <option v-for="n in 20" :key="n">{{n}}</option>
-                  </select>
-                </div>
+                    close-on-complete
+                    style="width:300px">
+                    </vuejs-timepicker>
+                  </li>
+                </ul>
+                <ul>
+                  <li class="number">
+                    <select  v-model="number">
+                      <option value="">人数を入力してください</option>
+                      <option v-for="n in 20" :key="n">{{n}}</option>
+                    </select>
+                  </li>
+                </ul>
               </form>
-              <button @click="($router.push('/done'),{name:reserve})" class="button btn btn-border-shadow btn-border-shadow--color2">予約する</button>
+              <button @click="postReservation()" class="button btn btn-border-shadow btn-border-shadow--color2">予約する</button>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="Modal" v-if="openModal" key=openModel>
-      <div>
-        <div class="card">
-          <h2>予約内容の確認</h2>
-        </div>
-        <div class="message">
-          <div class=""></div>
         </div>
       </div>
     </div>
@@ -79,13 +73,14 @@
 
 <script>
 import axios from "axios";
+import Datepicker from 'vuejs-datepicker';
 import VueTimepicker from 'vue2-timepicker';
 import 'vue2-timepicker/dist/VueTimepicker.css';
-import VuejsDatepicker from 'vue2-datepicker';
 import 'vue2-datepicker/index';
 import {ja} from 'vuejs-datepicker/dist/locale';
 import Header from '../components/Header.vue';
 export default {
+  props:["id"],
   data () {
     return {
       date:"",
@@ -93,44 +88,45 @@ export default {
       number:"",
       DatePickerFormat: 'yyyy-MM-dd',
       ja:ja,
-      restaurants:[],
-      restaurantList:[
-        {name:"root",
-        prefecture:"大阪",
-        genre:"焼肉",
-        url:"https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg",
-        detail:"料理長厳選の食材からつくる寿司を用いたコースを是非お楽しみください。食材・味・価格、お客様の満足度を徹底的に追求したお店です。特別な日のお食事、ビジネス接待まで気軽に使用する事ができます。"},
-      ]
+      restaurants:"",
     };
   },
   methods:{
     async getRestaurantDetail() {
       await axios
-        .get("http://127.0.0.1:8000/api/contact/ + restaurant.id")
+        .get("http://127.0.0.1:8000/api/restaurants/" + this.id)
         .then((response) => {
           this.restaurants = response.data.data;
         });
     },
     async postReservation(){
       await axios
-        .post("https://127.0.0.1:8000/api/v1/reservaions",{
-          user_id:this.$store.state.user.id,
-          restaurant_id:this.restaurant_id,
+        .post("http://127.0.0.1:8000/api/reservations",{
+          user_id:this.$store.state.user_id,
+          restaurant_id:this.id,
           date:this.date,
           time:this.time,
           number_reservation:this.number,
         })
-        .then((response) => 
-        console.log(response));
-    }
+        .then((response) => {
+        console.log(response);
+        this.$router.replace("/done");
+        })
+        .catch((response) => {
+          console.log(response);
+          alert('予約できません。もう一度、お試しください');
+        });
+    },
+    
   },
   created(){
-    this.getRestaurantDetail()
+    this.getRestaurantDetail(),
+    this.getReservation()
   },
   components: {
-    'vue-timepicker': VueTimepicker,
-    'vuejs-datepicker':VuejsDatepicker,
     Header,
+    'vuejs-timepicker': VueTimepicker,
+    Datepicker
   },
 }
 </script>
@@ -199,6 +195,9 @@ h2{
   -webkit-transform : translate(-50%,-50%);
   transform : translate(-50%,-50%);
 }
+ul{
+  padding:20px;
+}
 .card {
   padding: 20px 40px;
 }
@@ -210,7 +209,7 @@ h2{
 }
 select {
   display: inline-block;
-  width: 400px;
+  width: 300px;
   height:30px;
   margin-bottom:30px;
 }

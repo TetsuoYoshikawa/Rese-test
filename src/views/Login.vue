@@ -16,7 +16,7 @@
             <input placeholder="Password" type="password" v-model="password" class="label" />
             <div class="underline"></div>
           </div>
-          <button class="button" @click="auth">ログイン</button>
+          <button class="button" @click="login">ログイン</button>
         </div>
       </div>
   </div>
@@ -35,9 +35,9 @@ export default {
     Header
   },
   methods:{
-    auth(){
+    login(){
       this.$store.dispatch("login",{
-        email:this.emil,
+        email:this.email,
         password:this.password
       });
     }

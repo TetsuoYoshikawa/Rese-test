@@ -1,25 +1,21 @@
 <template>
   <div class="header">
-    <img class="header-img" src="../assets/store.png">
+    <img class="header-img" src="../assets/store.png" />
     <h2 class="header-title">RESE</h2>
-    <div v-for="(prefecture,index) in prefectureList" :key="index" :value="prefecture.id">
-      <p>{{prefecture.name}}</p>
-    </div>
     <div class="right flex">
-      <select class="search" v-model="searchPrefecture" @click="prefectureData">
+      <select v-model="searchPrefecture">
         <option value="">All Prefecutes</option>
-        <option v-for="(prefecture,index) in prefectureList" :key="index" :value="prefecture.id">{{prefecture.name}}
-        </option>
+        <option v-for="prefecture in prefectures" :key="prefecture.name" >{{prefecture.name}}</option>
       </select>
-      <select class="search" v-model="searchGenre" @click="genreData">
+      <select v-model="searchGenre">
         <option value="">All Genre</option>
-        <option v-for="(genre,index) in genreList" :key="index" :value="genre.id">{{genre.name}}</option>
+        <option v-for="genre in genres" :key="genre.name">{{genre.name}}</option>
       </select>
       <input type="text" placeholder="Restaurant Name" v-model="searchRestaurant">
       <button class="button" type="submit" @click="searching">Search</button>
     </div>
     <div class="mypage">
-      <button type="submit" @click="$router.push('/mypage')">マイページ</button>
+      <button type="submit" @click="$router.push({path: '/mypage'}, () => {})">マイページ</button>
     </div>
   </div>
 </template>
@@ -27,44 +23,40 @@
 <script>
 import axios from "axios";
 export default{
+  props:['id'],
   data(){
     return{
-      searchRestaurant:"",
+      restaurants: [],
+      prefectures:[],
+      genres:[],
       searchPrefecture:"",
       searchGenre:"",
-      prefectureList:[],
-      genreList:[],
-      restaurantList:[],
-    };
+      searchRestaurant:""
+    }
   },
+  
   methods:{
     prefectureData(){
-      this.$emit('catchPrefecture',this.prefectureList)
+      this.$emit('catchPrefecture',this.refecture)
     },
     genreData(){
-      this.$emit('catchGenre',this.genreList)
+      this.$emit('catchGenre',this.searchGenre)
     },
     async getPrefecture(){
       await axios
-      .get("http://127.0.0.1:8000/api/prefectures")
-      .then((response) => {
-        this.prefectureList = response.data.data;
-      })
-      .catch(err => {
-        console.error(err)
-      })
+        .get("http://127.0.0.1:8000/api/prefectures")
+        .then((response) => {
+          this.prefectures = response.data.data;
+        })
     },
     async getGenre(){
       await axios
-      .get("http://127.0.0.1:8000/api/genres")
-      .then((response) => {
-        this.genreList = response.data;
-      })
-      .catch(err => {
-        console.error(err)
-      })
+        .get("http://127.0.0.1:8000/api/genres")
+        .then((response) => {
+          this.genres = response.data.data;
+        })
     },
-    async getResurantSearch(){
+    async searching(){
       await axios
       .get("http://127.0.0.1:8000/api/vi/restaurants" 
       + this.$store.state.restaurant.id,
@@ -82,9 +74,10 @@ export default{
         this.genreList = response.data.genre;
       })
     },
-    created(){
+  },
+  created(){
     this.getPrefecture();
-    }
+    this.getGenre();
   }
 };
 </script>
@@ -139,3 +132,4 @@ button{
   border-radius: 30px;
 }
 </style>
+
