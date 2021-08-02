@@ -22,7 +22,7 @@
       </div>
       <div class="item">
         <div class="reservation-detail">
-          <h2 class="title">予約</h2>
+          <h2 class="title">予約{{$store.state.user_id}}</h2>
           <div class="reservation" >
             <div class="card">
               <form>

@@ -1,273 +1,164 @@
-
 <template>
-  <div>
-    <div class="header">
-    <img class="header-img" src="../assets/store.png" />
-    <h2 class="header-title">RESE</h2>
-      <div class="right flex">
-        <select v-model="searchPrefecture">
-          <option value="">All Prefecutes</option>
-          <option v-for="prefecture in prefectures" :key="prefecture.name" >{{prefecture.name}}</option>
-        </select>
-        <select v-model="searchGenre">
-          <option value="">All Genre</option>
-          <option v-for="genre in genres" :key="genre.name">{{genre.name}}</option>
-        </select>
-        <input type="text" placeholder="Restaurant Name" v-model="searchRestaurant">
-        <button class="button" type="submit" @click="storeSearch">Search</button>
-      </div>
-      <div class="mypage">
-        <button type="submit" @click="$router.push({path: '/mypage'}, () => {})">マイページ</button>
-      </div>
-    </div>
-    <div class="restaurant-list contents">
-      <div class="item">
-        <div class="restaurant-card flex" v-for="restaurant in restaurants" :key="restaurant.id">
-          <img :src=restaurant.image_url class="restaurant-pic">
-          <div class="restaurant-detail">
-            <div class="restaurant-name">
-              <p>{{restaurant.name}}</p>
-            </div>
-            <div class="tag">
-              <p>#{{restaurant.prefecture.name}} #{{restaurant.genre.name}}</p>
-            </div>
-            <div class="button">
-              <button @click="
-              $router.push({
-              path:'/detail/' + restaurant.id,
-              name:'Detail',
-              params:{id:restaurant.id}})">詳しく見る</button>
-                <v-icon name="heart" scale="2" class="heart" 
-                @click="favoriteDelete(restaurant)"
-                >
-                </v-icon>
-                <img src="../assets/heart_red.png"
-                @click="favoritePost(restaurant)" style="height:30px;width:30px;"
-                
-                />
-            </div>
-          </div>
+  <div class="home">
+    <div class="store-search flex no-flex">
+      <div class="flex flex-end">
+        <div><p>エリア</p></div>
+        <div
+          class="input-box input-width184 input-width60p"
+        >
+          <select 
+            type="text" 
+            v-model="saerchData.area_name"
+            class="input-box-select"
+          >
+            <option value="">全て</option>
+            <option 
+              v-for="areaData in createAreasName" 
+              :key="areaData.id"
+            >{{areaData.area_name}}</option>
+          </select>
         </div>
+      </div>
+      <div class="flex flex-end">
+        <div><p>ジャンル</p></div>
+        <div
+          class="input-box input-width184 input-width60p"
+        >
+          <select 
+            type="text" 
+            v-model="saerchData.genre_name" 
+            class="input-box-select" 
+          >
+            <option value=""> 全て</option>
+            <option 
+              v-for="genreData in createGenresName" 
+              :key="genreData.id" 
+            >{{genreData.genre_name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="flex flex-end">
+        <div><p>店名</p></div>
+        <div
+          class="input-box input-width184 input-width60p input-padding"
+        >
+          <input 
+            type="text" 
+            v-model="saerchData.store_name"
+            class="input-box-input"
+          >
+        </div>
+      </div>
+      <button 
+        @click="storeSaerch()" 
+        class="input-box input-box-button input-width122"
+      >検索</button>
+    </div>
+
+    <div class="store-boxes">
+      <div 
+        v-for="storeData in storesData" 
+        :key="storeData.id"
+      >
+        <StoreBox 
+          v-if="storeData.select" 
+          key="userSelect"
+          :storeData = "storeData"
+          @favoriteDelete="favoriteDelete" 
+          @favoritePost="favoritePost" 
+          class="store-box"
+        ></StoreBox>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import 'vue-awesome/icons';
-import Icon from 'vue-awesome/components/Icon';
-import HeaderAuth from '../components/HeaderAuth.vue';
+import StoreBox from '../components/StoreBox.vue'
 import axios from "axios";
-export default{
-  props:['id'],
+export default {
+  components: {
+    StoreBox
+  },
   data(){
     return{
-      restaurants: [],
-      prefectures:[],
-      genres:[],
-      favorites:[],
-      restaurants: [],
-      prefectures:[],
-      genres:[],
-      searchPrefecture:"",
-      searchGenre:"",
-      searchRestaurant:""
+      storesData:"",
+      areasData:"",
+      genresData:"",
+      saerchData:{
+        area_name:"", 
+        genre_name:"", 
+        store_name:""
+      },
     }
   },
   methods:{
-    async getRestaurant(){
-      await axios
-        .get("http://127.0.0.1:8000/api/restaurants")
-        .then((response => {
-          this.restaurants = response.data.data.restaurant;
-        }))
-        .catch(error => {
-          console.log(error)});
-    },
-    async getFavorite(){
-      await axios
-        .get('http://127.0.0.1:8000/api/favorites')
-        .then((response) => {
-          this.favorites = response.data.data;
-          if(this.favorites === 0){
-            this.notFavorite = true;
-          }else{
-            this.notFavorite = false;
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        });
-    },
-    async favoritePost(restaurant){
-      await axios
-      .post('http://127.0.0.1:8000/api/favorites',{
-        user_id:this.$store.state.user_id,
-        restaurant_id:restaurant.id,
-      })
-      .then((response) => {
-        console.log(response);
-        alert('いいねしました');
-      });
-    },
-    async favoriteDelete(restaurant){
-      await axios
-      .delete('http://127.0.0.1:8000/api/favorites',{
-        data:{
-          user_id:this.$store.state.user_id,
-          restaurant_id:restaurant.id
+    storeSaerch(){
+      for(let storeData of this.storesData){
+        let existsAreaId;
+        if(storeData.area.area_name.includes(this.saerchData.area_name)){
+          existsAreaId = true;
+        }else{
+          existsAreaId = false;
         }
-      })
-      .then((response) => {
-        console.log(response);
-        alert('いいねを削除しました')
-      })
+        let existsGenreId;
+        if(storeData.genre.genre_name.includes(this.saerchData.genre_name)){
+          existsGenreId = true;
+        }else{
+          existsGenreId = false;
+        }
+        let existsStoreName;
+        if(storeData.store_name.includes(this.saerchData.store_name)){
+          existsStoreName = true;
+        }else{
+          existsStoreName = false;
+        }
+        
+        if(existsAreaId && existsGenreId && existsStoreName){
+          storeData.select = true;
+        }else{
+          storeData.select = false;
+        }
+      }
+      this.$forceUpdate();
     },
-    async getPrefecture(){
-      await axios
-        .get("http://127.0.0.1:8000/api/prefectures")
-        .then((response) => {
-          this.prefectures = response.data.data;
-        })
+    favoriteDelete(store_id){
+      for(let storeData of this.storesData){
+        if(storeData.id == store_id){
+          storeData.user_id = null;
+        }
+      }
     },
-    async getGenre(){
-      await axios
-        .get("http://127.0.0.1:8000/api/genres")
-        .then((response) => {
-          this.genres = response.data.data;
-        })
+    favoritePost(store_id){
+      for(let storeData of this.storesData){
+        if(storeData.id == store_id){
+          storeData.user_id = this.$store.state.user_id;
+        }
+      }
     },
-    async storeSearch() {
-      await axios
-        .get(
-          "http://127.0.0.1:8000/api/searchRestaurants/" +
-            this.$store.state.user.id,
-          {
-            params: {
-              name: this.searchrestaurant,
-              prefecture_id: this.searchPrefecture,
-              genre_id: this.searchGenre,
-            },
-          }
-        )
-        .then((response) => {
-          this.stores = response.data.data;
-          this.searchResult = false;
-          this.loading = false;
-        })
+  },
+  computed:{
+    createAreasName(){
+      for(let areaData of this.areasData){
+        areaData.area_name = (areaData.area_name).substr(0, areaData.area_name.length-1);
+      }
+      return this.areasData;
+    },
+    createGenresName(){
+      return this.genresData;
+    },
+  },
+  async created(){
+    const storesDataPromise = axios.get("https://mysterious-fjord-19119.herokuapp.com/api/v1/store", {
+      params: {user_id: this.$store.state.user_id}
+    });
+    const areasDataPromise = axios.get("https://mysterious-fjord-19119.herokuapp.com/api/v1/area");
+    const genresDataPromise = axios.get("https://mysterious-fjord-19119.herokuapp.com/api/v1/genre");
+    this.storesData = (await storesDataPromise).data.data;
+    this.areasData = (await areasDataPromise).data.data;
+    this.genresData = (await genresDataPromise).data.data;
+    for(let storeData of this.storesData){
+      storeData["select"] = true;
     }
-  },
-  components:{
-    HeaderAuth,
-    'v-icon':Icon,
-  },
-  created(){
-    this.getRestaurant();
-    this.getFavorite();    
-    this.getPrefecture();
-    this.getGenre();
   }
-};
-</script>
-
-<style scoped>
-.header{
-  display:flex;
-  height:70px;
-  align-items: center;
-  background-color:#ff7300;
 }
-.header-img{
-  width:20px;
-  height: 20px;
-  margin:0 20px;
-}
-.header-title{
-  color:white;
-  font-size:25px;
-}
-.right{
-  align-items:center;
-  margin: 0 auto;
-}
-.right p {
-  margin-right:20px;
-  cursor: pointer;
-}
-.logo{
-  width:150px;
-  cursor: pointer;
-}
-select{
-  padding:15px;
-  border:none;
-  font-size: 16px;
-}
-input{
-  padding:17px;
-  border:none;
-}
-button{
-  background-color:white;
-  padding:17px;
-  border:none;
-  margin-top:1px;
-}
-.mypage{
-  margin:0 20px;
-  border-radius: 10px;
-}
-.mypage button{
-  border-radius: 30px;
-}
-/*////////////////
-    店舗情報
-////////////////*/
-.button{
-  display: flex;
-  flex-wrap: wrap;
-}
-.item{
-  width:90%;padding-left:20px;
-  margin:0 auto;
-  display: flex;
-  flex-wrap: wrap;
-}
-.restaurant-card{
-  height:450px;
-  width:30%;
-  box-shadow: 2px 2px 2px black;
-  margin:20px 20px;
-}
-.restaurant-pic{
-  width:100%;
-  height:300px;
-}
-.restaurant-name{
-  padding:15px 20px;
-  font-size:25px;
-}
-.tag{
-  padding-left:20px;
-  font-size:20px;
-  padding-bottom: 15px;
-}
-.heart{
-  padding-left:80px;
-  color:#F05654;
-}
-button{
-  padding:10px 20px;
-  margin-left: 20px;
-  background-color:#ff7300;
-  border:none;
-  border-radius: 10px;
-}
-.VueStar {
-      position: relative;
-    }
-    .VueStar__icon .fa {
-      font-size: 3em;
-      cursor: pointer;
-    }
-</style>

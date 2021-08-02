@@ -1,11 +1,11 @@
 <template>
   <div>
     <Header />
-    <div class="mypage flex">
+    <div class="mypage">
       <div  key="left" class="reserve">
         <h2 class="title" @click="watchLeft">予約状況</h2>
         <div  v-for="(reserve,index) in reserves" :key="index">
-          <p v-if="notFavorite">予約店舗はございません</p>
+          <p v-if="notReserve">予約店舗はございません</p>
           <div class="reserve-info">
             <div class="reserve-top flex">
               <img src="../assets/time.png" style="height:30px;width:30px;margin:0 20px;padding: 10px 0">
@@ -36,9 +36,9 @@
         </div>
       </div>
       <div  key="right" class="favorite">
-        <h2 @click="watchRight">お気に入り店舗</h2>
+        <h2 v-if="notFavorite">お気に入り店舗はございません</h2>
+        <h2 v-else>お気に入り店舗</h2>
         <div >
-          <p v-if="notFavorite">お気に入り店舗はございません</p>
           <div class="item">
             <div class="restaurant-card flex" v-for="(restaurant,index) in favorites" :key="index">
               <img :src=restaurant.restaurant.image_url class="restaurant-pic">
@@ -79,6 +79,8 @@ export default {
       name:this.$store.state.user_id,
       right: true,
       left: false,
+      notFavorite:true,
+      notReserve:true,
       reserves:[],
       favorites:[],
     };
@@ -89,6 +91,11 @@ export default {
         .get('http://127.0.0.1:8000/api/favorites')
         .then((response) => {
           this.favorites = response.data.data;
+          if(this.favorites == 0){
+            this.notFavorite = true;
+          }else{
+            this.notFavorite = false;
+          }
         })
         .catch((error) => {
           console.log(error)
@@ -159,7 +166,7 @@ export default {
     ページ全体
 ////////////////*/
 .mypage {
-  justify-content: space-around;
+  display: flex;
 }
 .flex {
   display: flex;
@@ -173,8 +180,9 @@ img{
     予約状況
 ///////////////*/
 .reserve {
-  width: 70%;
+  width: 48%;
   padding-top:20px;
+  margin: 0 auto;
 }
 .reserve-info {
   background-color: orange;
@@ -210,6 +218,7 @@ img{
 .favorite{
   font-size: 20px;
   padding-top: 20px;
+  width: 48%;
 }
 .favorite h2{
   text-align: center;
@@ -222,9 +231,9 @@ img{
 }
 .restaurant-card{
   height:500px;
-  width:30%;
+  width:46%;
   box-shadow: 2px 2px 2px black;
-  margin:20px 20px;
+  margin:20px 10px;
 }
 .restaurant-name{
   font-size:25px;
