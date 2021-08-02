@@ -16,7 +16,7 @@
         <button class="search" type="submit" @click="storeSearch">Search</button>
       </div>
       <div class="mypage">
-        <button type="submit" @click="$router.push({path: '/mypage'}, () => {})">マイページ</button>
+        <button type="submit" @click="$router.push('/mypage')">マイページ</button>
       </div>
     </div>
     <div class="restaurant-list contents">
@@ -38,10 +38,10 @@
                 params:{id:restaurant.id}})">詳しく見る
                 </button>
                 <div>
-                  <v-icon name="heart" scale="2" class="heart" @click="favoriteDelete(restaurant)"
-                  v-if="restaurant.favorites.length === 1">
+                  <v-icon name="heart" scale="2" class="heart" @click="favoritePost(restaurant)"
+                  v-if="restaurant.favorites.length === 0">
                   </v-icon>
-                  <img src="../assets/heart_red.png" @click="favoritePost(restaurant)" style="height:30px;width:30px;"
+                  <img class="heart" src="../assets/heart_red.png" @click="favoriteDlete(restaurant)" style="height:30px;width:30px;"
                   v-else />
                 </div>
             </div>

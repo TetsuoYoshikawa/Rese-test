@@ -22,18 +22,28 @@
       </div>
       <div class="item">
         <div class="reservation-detail">
-          <h2 class="title">予約{{$store.state.user_id}}</h2>
+          <h2 class="title">予約{{data}}</h2>
           <div class="reservation" >
             <div class="card">
               <form>
                 <ul class="col-3 mx-auto" style="width: 300px;">
                   <li class="date" >
                     <Datepicker 
-                    :format="DatePickerFormat" :bootstrap-styling="true" 
+                    :format="DatePickerFormat" 
+                    formatted="MM月DD日"
+                    only-date
+                    :value="this.default"
+                    :bootstrap-styling="true" 
                     :language="ja"
                     placeholder="日付を選択してください"
                     v-model="date"
                     ></Datepicker>
+                    <input 
+                type="date" 
+                v-model="date"
+                class="input-box-input input-box-readonly"
+                readonly
+              >
                   </li>
                 </ul>
                 <ul>
@@ -62,7 +72,7 @@
                   </li>
                 </ul>
               </form>
-              <button @click="postReservation()" class="button btn btn-border-shadow btn-border-shadow--color2">予約する</button>
+              <button @click="postReservation()"  class="button btn btn-border-shadow btn-border-shadow--color2">予約する</button>
             </div>
           </div>
         </div>
@@ -84,6 +94,7 @@ export default {
   data () {
     return {
       date:"",
+      default: '2018-10-04',
       time:"",
       number:"",
       DatePickerFormat: 'yyyy-MM-dd',

@@ -64,9 +64,9 @@ const router = new VueRouter({
 
 router.beforeEach((to,from,next) => {
   if(
-    to.matched.some((record) => record.meta.userAuth) &&
+    (to.matched.some((record) => record.meta.userAuth) &&
     !store.state.auth
-  ){
+  )){
     next({
       path:"/login",
       query:{

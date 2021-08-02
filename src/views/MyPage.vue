@@ -55,9 +55,9 @@
                   path:'/detail/' + restaurant.id,
                   name:'Detail',
                   params:{id:restaurant.id}})">詳しく見る</button>
-                  <img src="../assets/heart_red.png"
+                  <img class="heart" src="../assets/heart_red.png"
                   @click="favoriteDelete(restaurant)"
-                  style="height:30px;width:30px;"
+                  style="height:40px;width:40px;"
                   >
                 </div>
               </div>
@@ -231,7 +231,7 @@ img{
 }
 .restaurant-card{
   height:500px;
-  width:46%;
+  width:280px;
   box-shadow: 2px 2px 2px black;
   margin:20px 10px;
 }
@@ -258,6 +258,9 @@ img {
 .flex{
   display: flex;
   flex-wrap: wrap;
+}
+.heart{
+  padding-left:80px;
 }
 /*/////////////////
      ボタン詳細
