@@ -99,18 +99,14 @@ input{
   transform: scaleX(0);
   transition: transform 0.18s ease-out;
 }
-.button{
-  position: relative;
-  display: inline-block;
-  margin: 10px auto;
-  padding:5px 20px;
-  text-decoration: none;
-  color: #FFF;
-  background: #ff7300;
-  border-bottom: solid 2px #d27d00;
-  border-radius: 4px;
-  box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
-  font-weight: bold;
+button{
+  padding:10px 20px;
+  margin-left: 20px;
+  background-color:#ff7300;
+  border:none;
+  border-radius: 10px;
+  color: white;
+  margin:20px 0;
 }
 .button:active{
   border-bottom: solid 2px #fd9535;

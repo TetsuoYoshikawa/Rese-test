@@ -34,7 +34,8 @@
                 $router.push({
                 path:'/detail/' + restaurant.id,
                 name:'Detail',
-                params:{id:restaurant.id}})">詳しく見る
+                params:{id:restaurant.id}})"
+                style="color:white">詳しく見る
                 </button>
                 <div>
                   <v-icon name="heart" scale="2" class="heart" @click="favoritePost(restaurant)"
