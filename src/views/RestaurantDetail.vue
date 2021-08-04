@@ -28,22 +28,7 @@
               <form>
                 <ul class="col-3 mx-auto" style="width: 300px;">
                   <li class="date" >
-                    <Datepicker 
-                    :format="DatePickerFormat" 
-                    formatted="MM月DD日"
-                    only-date
-                    :value="this.default"
-                    :bootstrap-styling="true" 
-                    :language="ja"
-                    placeholder="日付を選択してください"
-                    v-model="date"
-                    ></Datepicker>
-                    <input 
-                type="date" 
-                v-model="date"
-                class="input-box-input input-box-readonly"
-                readonly
-              >
+                    <input type="date" v-model="date" placeholder="日付を選択してください">
                   </li>
                 </ul>
                 <ul>
@@ -83,7 +68,6 @@
 
 <script>
 import axios from "axios";
-import Datepicker from 'vuejs-datepicker';
 import VueTimepicker from 'vue2-timepicker';
 import 'vue2-timepicker/dist/VueTimepicker.css';
 import 'vue2-datepicker/index';
@@ -94,7 +78,6 @@ export default {
   data () {
     return {
       date:"",
-      default: '2018-10-04',
       time:"",
       number:"",
       DatePickerFormat: 'yyyy-MM-dd',
@@ -112,7 +95,7 @@ export default {
     },
     async postReservation(){
       await axios
-        .post("http://127.0.0.1:8000/api/reservations",{
+        .post("http://127.0.0.1:8000/api/auth/reservations",{
           user_id:this.$store.state.user_id,
           restaurant_id:this.id,
           date:this.date,
@@ -137,7 +120,6 @@ export default {
   components: {
     Header,
     'vuejs-timepicker': VueTimepicker,
-    Datepicker
   },
 }
 </script>
@@ -166,6 +148,7 @@ export default {
   padding:20px 0;
   display: flex;
   line-height: 20px;
+  background-color:#ff7300;
 }
 .restaurant-title{
   padding:5px 0 0 20px;;
@@ -193,7 +176,7 @@ h2{
   height:590px;
 }
 .title{
-  background-color:#4fb683;
+  background-color:#ff7300;
   height: 80px;
   line-height: 80px;
   padding-left: 20px;

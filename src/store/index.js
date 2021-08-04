@@ -61,6 +61,7 @@ export default new Vuex.Store({
       )
         .then((response) => {
           console.log(response);
+          alert('ログアウトしました。');
           commit("logout", responseLogout.data.auth);
           commit("user_id", "");
           commit("user_name", "");

@@ -3,10 +3,10 @@
     <Header />
     <div class="mypage">
       <div  key="left" class="reserve">
-        <h2 class="title" @click="watchLeft">予約状況</h2>
-        <div  v-for="(reserve,index) in reserves" :key="index">
-          <p v-if="notReserve">予約店舗はございません</p>
-          <div class="reserve-info">
+        <h2 v-if="notReserve" >予約店舗はございません</h2>
+        <h2 v-else >予約状況</h2>
+        <div>
+          <div class="reserve-info" v-for="(reserve,index) in reserves" :key="index">
             <div class="reserve-top flex">
               <img src="../assets/time.png" style="height:30px;width:30px;margin:0 20px;padding: 10px 0">
               <p class="reserve-title">予約 No.{{reserve.id}}</p>
@@ -88,7 +88,7 @@ export default {
   methods: {
     async getFavorite(){
       await axios
-        .get('http://127.0.0.1:8000/api/favorites')
+        .get('http://127.0.0.1:8000/api/auth/favorites')
         .then((response) => {
           this.favorites = response.data.data;
           if(this.favorites == 0){
@@ -103,13 +103,13 @@ export default {
     },
     async getReservation(){
       await axios 
-      .get('http://127.0.0.1:8000/api/reservations')
+      .get('http://127.0.0.1:8000/api/auth/reservations')
       .then((response) => {
         this.reserves = response.data.data;
-      if(this.reserves === 0){
-          this.notReserve = true
+      if(this.reserves == 0){
+          this.notReserve = true;
         }else{
-          this.notReserve = false
+          this.notReserve = false;
         }})  
       .catch((error) => {
         console.log(error)
@@ -117,7 +117,7 @@ export default {
     },
     async favoriteDelete(restaurant){
       await axios
-      .delete('http://127.0.0.1:8000/api/favorites',{
+      .delete('http://127.0.0.1:8000/api/auth/favorites',{
         data:{
           user_id:restaurant.user_id,
           restaurant_id:restaurant.restaurant_id
@@ -130,7 +130,7 @@ export default {
     },
     async deleteReservation(reserve){
       await axios
-      .delete('http://127.0.0.1:8000/api/reservations',{
+      .delete('http://127.0.0.1:8000/api/auth/reservations',{
         data:{
           user_id:reserve.user_id,
           restaurant_id:reserve.restaurant_id
@@ -181,8 +181,13 @@ img{
 ///////////////*/
 .reserve {
   width: 48%;
+  font-size: 20px;
   padding-top:20px;
   margin: 0 auto;
+}
+.reserve h2{
+  text-align: center;
+  padding-bottom:20px;
 }
 .reserve-info {
   background-color: orange;

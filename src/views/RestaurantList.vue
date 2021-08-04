@@ -2,26 +2,25 @@
   <div>
     <div class="header">
       <img class="header-img" src="../assets/store.png" />
-      <h2 class="header-title">RESE</h2>
+      <h2 class="header-title" @click="$router.push({path: '/'}, () => {})">RESE</h2>
       <div class="right flex">
-        <select v-model="searchData.prefecture">
+        <select v-model="searchData_prefecture">
           <option value="">All Prefecutes</option>
           <option v-for="prefecture in prefectures" :key="prefecture.name">{{prefecture.name}}</option>
         </select>
-        <select v-model="searchData.genre">
+        <select v-model="searchData_genre">
           <option value="">All Genre</option>
           <option v-for="genre in genres" :key="genre.name">{{genre.name}}</option>
         </select>
-        <input type="text" placeholder="Restaurant Name" v-model="searchData.restaurant">
-        <button class="search" type="submit" @click="storeSearch">Search</button>
+        <input type="text" placeholder="Restaurant Name" v-model="searchData_restaurant">
       </div>
       <div class="mypage">
-        <button type="submit" @click="$router.push('/mypage')">マイページ</button>
+        <button type="submit" @click="$router.push({path: '/mypage'}, () => {})">マイページ</button>
       </div>
     </div>
     <div class="restaurant-list contents">
       <div class="item">
-        <div class="restaurant-card flex" v-for="restaurant in restaurants" :key="restaurant.id">
+        <div class="restaurant-card flex" v-for="restaurant in filterRestaurants" :key="restaurant.id">
           <img :src=restaurant.image_url class="restaurant-pic">
           <div class="restaurant-detail">
             <div class="restaurant-name">
@@ -41,7 +40,7 @@
                   <v-icon name="heart" scale="2" class="heart" @click="favoritePost(restaurant)"
                   v-if="restaurant.favorites.length === 0">
                   </v-icon>
-                  <img class="heart" src="../assets/heart_red.png" @click="favoriteDlete(restaurant)" style="height:30px;width:30px;"
+                  <img class="heart" src="../assets/heart_red.png" @click="favoriteDelete(restaurant)" style="height:30px;width:30px;"
                   v-else />
                 </div>
             </div>
@@ -64,20 +63,24 @@ export default{
       prefectures:[],
       genres:[],
       favorites:[],
-      searchData:{
-        prefecture:"",
-        genre:"",
-        restaurant:"",
-      },
+      searchData_prefecture:"",
+      searchData_genre:"",
+      searchData_restaurant:"",
     }
   },
   computed:{
-    storeSearch(){
-      return this.restaurants.filter(restaurant => {
-        return restaurant.prefecture.name.includes(this.searchData.prefecture) ||
-        restaurant.grnre.name.includes(this.searchData.genre) ||
-        restaurant.prefecture.name.includes(this.searchData.restaurant)
-      })
+    filterRestaurants(){
+      let restaurants = [];
+      for(let i in this.restaurants){
+        let restaurant = this.restaurants[i];
+        if(restaurant.genre.name.indexOf(this.searchData_genre) !== -1 )
+        if(restaurant.prefecture.name.indexOf(this.searchData_prefecture) !== -1 )
+        if(restaurant.name.indexOf(this.searchData_restaurant) !== -1 ){
+          restaurants.push(restaurant)
+        }
+      }
+      console.log(restaurants);
+      return restaurants;
     }
   },
   methods:{
@@ -92,7 +95,7 @@ export default{
     },
     async getFavorite(){
       await axios
-        .get('http://127.0.0.1:8000/api/favorites')
+        .get('http://127.0.0.1:8000/api/auth/favorites')
         .then((response) => {
           this.favorites = response.data.data;
         })
@@ -102,7 +105,7 @@ export default{
     },
     async favoritePost(restaurant){
       await axios
-      .post('http://127.0.0.1:8000/api/favorites',{
+      .post('http://127.0.0.1:8000/api/auth/favorites',{
         user_id:this.$store.state.user_id,
         restaurant_id:restaurant.id,
       })
@@ -113,7 +116,7 @@ export default{
     },
     async favoriteDelete(restaurant){
       await axios
-      .delete('http://127.0.0.1:8000/api/favorites',{
+      .delete('http://127.0.0.1:8000/api/auth/favorites',{
         data:{
           user_id:this.$store.state.user_id,
           restaurant_id:restaurant.id
@@ -162,8 +165,8 @@ export default{
   background-color:#ff7300;
 }
 .header-img{
-  width:20px;
-  height: 20px;
+  width:30px;
+  height: 30px;
   margin:0 20px;
 }
 .header-title{
@@ -208,19 +211,20 @@ input{
 /*////////////////
     店舗情報
 ////////////////*/
+
 .button{
   display: flex;
   flex-wrap: wrap;
 }
 .item{
-  width:90%;padding-left:20px;
-  margin:0 auto;
+  width:85%;
   display: flex;
   flex-wrap: wrap;
+  margin: 0 auto;
 }
 .restaurant-card{
   height:450px;
-  width:30%;
+  width:250px;
   box-shadow: 2px 2px 2px black;
   margin:20px 20px;
 }
@@ -238,7 +242,7 @@ input{
   padding-bottom: 15px;
 }
 .heart{
-  padding-left:80px;
+  padding-left:70px;
   color:#F05654;
 }
 button{

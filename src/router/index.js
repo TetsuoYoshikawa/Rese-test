@@ -38,6 +38,9 @@ const routes = [
     name: 'RestaurantDetail',
     component:RestaurantDetail,
     props: true,
+    meta:{
+      userAuth:true,
+    }
   },
   {
     path:'/done',
