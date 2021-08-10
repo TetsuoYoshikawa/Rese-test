@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <Header />
+  <div id="app">
+    <HeaderAdmin />
     <div class="admin">
       <div class="card right" >
         <div class="card-title" style="display: flex;">
           <h2 @click="isSelect('1')" v-bind:class="{'active': isActive === '1'}">店舗情報変更</h2>
           <h2 @click="isSelect('2')" v-bind:class="{'active': isActive === '2'}">新規店舗登録</h2>
         </div>
-        <div class="restaurant" v-if="isActive === '1'">
+        <div class="restaurant" v-if="isActive === '1'" key="right">
           <div class="flex">
             <p >Restaurant Name:</p>
             <input class="label" v-model="restaurant_name"/>
@@ -39,23 +39,23 @@
             </div>
             <div class="input-box input-width600 input-width70p input-height32 flex-left">
               <span></span>
-              <input type="file" id="file" @change="onFileChange" class="input-box-input input-padding file-send" readonly>
+              <input type="file" id="file" @click="fileSelected()" class="input-box-input input-padding file-send" readonly>
             </div>
           </div>
-          <button type="submit" @click=putRestaurant()>変更</button>
+          <button type="submit" @click="putRestaurant()">店舗情報変更</button>
         </div>
-        <div class="restaurant" v-else-if="isActive === '2'">
+        <div class="restaurant"  v-if="isActive === '2'" key="left">
           <div class="flex">
             <p>Restaurant Name:</p>
             <input class="label" v-model="restaurant_name" />
             <div class="under-line"></div>
           </div>
           <div class="flex">
-            <p>Prefectures!!:</p>
+            <p>Prefectures:</p>
             <select v-model="restaurant_prefecture">
               <option value="">Prefecture select</option>
-              <option  v-for="prefecture in prefectures" :key="prefecture.name">{{prefecture.name}}</option>
-              </select>
+              <option v-for="prefecture in prefectures" :key="prefecture.name">{{prefecture.name}}</option>
+            </select>
             <div class="under-line"></div>
           </div>
           <div class="flex">
@@ -76,9 +76,13 @@
             </div>
             <div class="input-box input-width600 input-width70p input-height32 flex-left">
               <span></span>
-              <input type="file" id="file" @change="onFileChange" class="input-box-input input-padding file-send" readonly>
+              <input type="file" id="file" @click="onFileChange()" class="input-box-input input-padding file-send" readonly>
+              <div class="image" v-if="preview">
+                <img :src="preview" />
+              </div>
             </div>
           </div>
+          <button type="submit" @click="postRestaurant()">新規店舗登録</button>
         </div>
       </div>
     </div>
@@ -86,7 +90,8 @@
 </template>
 
 <script>
-import Header from "../components/Header.vue";
+import axios from 'axios';
+import HeaderAdmin from "../components/HeaderAdmin.vue";
 export default{
   data() {
     return {
@@ -104,8 +109,6 @@ export default{
     isSelect(num) {
       this.isActive = num;
     },
-  },
-  /*
     async getPrefecture(){
       await axios
         .get("http://127.0.0.1:8000/api/prefectures")
@@ -119,7 +122,7 @@ export default{
         .then((response) => {
           this.genres = response.data.data;
         })
-    },
+     },
     async onFileChange(event) {
       if(event.target.files.lenght === 0){
         return false
@@ -182,9 +185,9 @@ export default{
           alert("更新できませんでした。お手数ですが再度お試しください。");
         })
     },
-    */
+  },
   components:{
-    Header
+    HeaderAdmin
   },
   created(){
   this.getPrefecture();
@@ -200,7 +203,7 @@ export default{
   padding-top:100px;
 }
 .card {
-  margin: 0px auto;
+  margin: 50px auto;
   width: 800px;
   background: #fff;
   box-shadow: 2px 2px 4px;

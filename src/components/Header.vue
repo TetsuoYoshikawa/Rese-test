@@ -1,3 +1,4 @@
+
 <template>
   <div class="header">
     <img class="header-img" src="../assets/store.png" />
@@ -6,40 +7,34 @@
       <li v-if="$store.state.auth" key="auth" class="menu" :class="menu">
         <ul class="moble-ul left">
           <a @click="$router.push({path: '/'}, () => {})">
-          店舗<br class="mobile-show">
-          一覧
+          店舗一覧
           </a>
         </ul>
         <ul class="moble-ul ber">
           <a @click="$router.push({path: '/mypage'}, () => {})">
-          マイ<br class="mobile-show">
-          ページ
+          マイページ
           </a>
         </ul>
         <ul class="moble-ul ber">
           <a @click="logout">
-          ログ<br class="mobile-show">
-          アウト
+          ログアウト
           </a>
         </ul>
       </li>
       <li v-else key="auth" class="menu" :class="menu">
         <ul class="moble-ul left">
           <a @click="$router.push({path: '/'}, () => {})">
-          店舗<br class="mobile-show">
-          一覧
+          店舗一覧
           </a>
         </ul>
         <ul class="moble-ul ber">
           <a @click="$router.push({path: '/register'}, () => {})">
-          会員<br class="mobile-show">
-          登録
+          会員登録
           </a>
         </ul>
         <ul class="moble-ul ber">
           <a @click="$router.push({path: '/login'}, () => {})">
-          ログ<br class="mobile-show">
-          イン
+          ログイン
           </a>
         </ul>
       </li>
@@ -77,7 +72,8 @@ export default{
         this.menu = "";
         this.hamburger = "hamburger";
       }
-    }
+    },
+
   }
 };
 </script>
@@ -97,7 +93,7 @@ export default{
   justify-content: space-between;
   background-color: white;
   height: 50px;
-  width:450px;
+  width: 450px;
   border-radius: 30px;
   text-align: center;
 }
@@ -114,24 +110,24 @@ export default{
   cursor: default;
 }
 .right {
-  margin-left:auto;
+  margin-left: auto;
 }
 .moble-ul {
-	list-style-type:none;
-	border-left:1px solid black;
+  list-style-type: none;
+  border-left: 1px solid black;
   margin-left: 45px;
 }
-.mobile-show{
-	list-style-type:none;
-	margin-right:6px;
-	border-left:1px solid black;
+.mobile-show {
+  list-style-type: none;
+  margin-right: 6px;
+  border-left: 1px solid black;
   margin-left: 30px;
 }
-.left{
-  border-left:0;
-	padding-left:0;
+.left {
+  border-left: 0;
+  padding-left: 0;
 }
-.ber{
+.ber {
   padding-left: 30px;
 }
 .menu {
@@ -147,116 +143,87 @@ export default{
 .hamburger {
   display: none;
 }
-.managemant {
-  vertical-align: middle;
-  background-color: #d4a701;
-  border-color: #775d00;
-}
-.administrate {
-  vertical-align: middle;
-  background-color: #9b9067;
-  border-color: #665f48;
-}
-.mobile-show {
-  display: none;
-}
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
+  a {
+    text-decoration: none;
+    color: white;
+  }
+  .nav {
+    position: absolute;
+    height: 100vh;
+    width: 50%;
+    right: -50%;
+    background: #ff7300;
+    transition: 0.7s;
+  }
+  .nav ul {
+    padding-top: 80px;
+  }
+  .nav ul li {
+    list-style-type: none;
+    margin-top: 50px;
+    width: 100px;
+  }
+.ber {
+  padding-left: 0px;
+ }
   .text-area {
-    width: 100%;
-    justify-content: initial;
-  }
-  .logo {
-    position: absolute;
-    top: 0px;
-    left: 15px;
-    line-height: 80px;
-    opacity: 1;
-    transition: 0.8s;
-  }
-  .no-logo {
-    opacity: 0;
-  }
-  .menu {
-    width: 320px;
-    position: absolute;
-    top: 0px;
-    left: 100px;
-    display: flex;
-    font-size: 14px;
-    margin-top: 22px;
-    line-height: 20px;
-    opacity: 0;
-    transition: 0.8s;
-    pointer-events: none;
+    background: #ff7300;
+    display: inline;
   }
   .moble-ul {
-    width: 80px;
-  }
-  .menu-open {
-    left: -15px;
-    opacity: 1;
-    pointer-events: initial;
-  }
-  .hamburger {
-    display: initial;
-    width: 48px;
-    height: 48px;
-    position: absolute;
-    cursor: pointer;
-    top: 12px;
-    right: 15px;
-    transition: 0.4s;
-    z-index: -100;
-  }
-  .hamburger span {
-    position: absolute;
-    left: 2px;
-    display: block;
-    width: 35px;
-    height: 3px;
-    background-color: #000;
-    transition: 0.8s;
-  }
-  .hamburger span:nth-of-type(1) {
-    top: 12px;
-  }
-  .hamburger span:nth-of-type(2) {
-    top: 24px;
-  }
-  .hamburger span:nth-of-type(3) {
-    top: 36px;
-  }
-  .hamburger-close span {
-    left: 33px;
-    width: 4px;
-    height: 28px;
-  }
-  .hamburger-close span:nth-of-type(1) {
-    top: 12px;
-  }
-  .hamburger-close span:nth-of-type(2) {
-    top: 12px;
-  }
-  .hamburger-close span:nth-of-type(3) {
-    top: 12px;
-  }
-  .management-moble {
-    height: 45px;
-    font-size: 12px;
-    margin-top: -2px;
-    margin-left: 10px;
-  }
-  .management-moble-noshow {
-    display: none;
+    list-style-type: none;
+    border-left: 0px solid black;
+    margin-left: -200px;
   }
   .mobile-show {
-    display: initial;
+    list-style-type: none;
+    margin-right: 0px;
+    border-left: 0px solid black;
+    margin-left: 0px;
   }
-  .moble-ul-button {
-    display: flex;
-    width: 50px;
-    margin-left: -20px;
-    margin-top: 0px;
+  .menu {
+    display: block;
+    width: 36px;
+    height: 32px;
+    cursor: pointer;
+    position: relative;
+    left: 20px;
+    margin-left: 85%;
+  }
+  .menu__line--top,
+  .menu__line--middle,
+  .menu__line--bottom {
+    display: inline-block;
+    width: 100%;
+    right: 0%;
+    height: 4px;
+    background-color: #000;
+    position: absolute;
+    transition: 0.5s;
+  }
+  .menu__line--top {
+    top: 0;
+  }
+  .menu__line--middle {
+    top: 14px;
+  }
+  .menu__line--bottom {
+    bottom: 0;
+  }
+  .menu.open span:nth-of-type(1) {
+    top: 14px;
+    transform: rotate(45deg);
+  }
+  .menu.open span:nth-of-type(2) {
+    opacity: 0;
+  }
+  .menu.open span:nth-of-type(3) {
+    top: 14px;
+    transform: rotate(-45deg);
+  }
+  .in {
+    transform: translateX(-100%);
   }
 }
 </style>

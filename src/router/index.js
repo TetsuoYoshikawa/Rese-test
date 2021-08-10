@@ -8,6 +8,7 @@ import Done from '../views/Done.vue';
 import Thanks from '../views/Thanks.vue';
 import RestaurantList from '../views/RestaurantList.vue';
 import Admin from '../views/Admin.vue';
+import RestaurantListAdmin from '../views/RestaurantlistAdmin.vue';
 import store from '../store/index';
 //import A from '../views/A.vue';
 
@@ -57,6 +58,11 @@ const routes = [
     path:'/admin',
     name:'admin',
     component:Admin,
+  },
+  {
+    path:'/restaurantlistadmin',
+    name:'restaurantlistadmin',
+    component:RestaurantListAdmin,
   }
   //{
   //  path:'/',
