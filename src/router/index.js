@@ -9,6 +9,7 @@ import Thanks from '../views/Thanks.vue';
 import RestaurantList from '../views/RestaurantList.vue';
 import Admin from '../views/Admin.vue';
 import RestaurantListAdmin from '../views/RestaurantlistAdmin.vue';
+import AdminCheck from '../views/AdminCheck.vue';
 import store from '../store/index';
 //import A from '../views/A.vue';
 
@@ -63,12 +64,12 @@ const routes = [
     path:'/restaurantlistadmin',
     name:'restaurantlistadmin',
     component:RestaurantListAdmin,
-  }
-  //{
-  //  path:'/',
-  //  name:'A',
-  //  component:A
-  //},
+  },
+  {
+    path:'/admincheck',
+    name:'admincheck',
+    component:AdminCheck,
+  },
 ]
 
 const router = new VueRouter({
