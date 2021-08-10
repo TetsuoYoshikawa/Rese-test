@@ -113,7 +113,11 @@ export default{
       .then((response) => {
         console.log(response);
         alert('いいねしました');
-      });
+      })
+      .catch((response) =>{
+        console.log(response);
+        alert('ログインしてください');
+      })
     },
     async favoriteDelete(restaurant){
       await axios
